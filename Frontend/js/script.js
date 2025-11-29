@@ -99,30 +99,11 @@ async function handleContactFormSubmit(e) {
     btnText.textContent = 'Sending...';
     btnIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     
-    // EmailJS Configuration
-    // IMPORTANT: You need to replace these values with your EmailJS credentials
-    // See EMAILJS_SETUP.md file for detailed setup instructions
-    // 1. Sign up at https://www.emailjs.com/ (free account)
-    // 2. Create an email service (Gmail, Outlook, etc.)
-    // 3. Create an email template
-    // 4. Get your Public Key, Service ID, and Template ID from EmailJS dashboard
-    // 5. Replace the values below:
-    
-    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS Public Key
-    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS Service ID
-    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS Template ID
-    const RECIPIENT_EMAIL = 'www44victor@gmail.com'; // Your email address
-    
-    // Check if EmailJS is configured
-    if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY' || 
-        EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' || 
-        EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
-        submitBtn.disabled = false;
-        btnText.textContent = originalText;
-        btnIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
-        showFormMessage('error', 'EmailJS is not configured yet. Please check EMAILJS_SETUP.md for setup instructions.');
-        return;
-    }
+    // EmailJS Configuration - All configured! ✅
+    const EMAILJS_PUBLIC_KEY = 'avg4OaHFLEedx-T11';
+    const EMAILJS_SERVICE_ID = 'victor_gmail';
+    const EMAILJS_TEMPLATE_ID = 'victor_tempID';
+    const RECIPIENT_EMAIL = 'www44victor@gmail.com';
     
     try {
         // Initialize EmailJS with your Public Key
