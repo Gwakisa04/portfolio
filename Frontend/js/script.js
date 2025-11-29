@@ -79,7 +79,7 @@ function filterProjects(category) {
     });
 }
 
-function handleContactFormSubmit(e) {
+async function handleContactFormSubmit(e) {
     e.preventDefault();
     
     // Get form values
@@ -88,15 +88,107 @@ function handleContactFormSubmit(e) {
     const subject = document.getElementById('subject').value;
     const message = document.getElementById('message').value;
     
-    // Here you would typically send the form data to a server
-    // For now, we'll just log it to the console
-    console.log('Form submitted:', { name, email, subject, message });
+    // Get submit button to show loading state
+    const submitBtn = e.target.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnIcon = submitBtn.querySelector('.btn-icon');
+    const originalText = btnText.textContent;
     
-    // Show success message (in a real app, you'd do this after successful submission)
-    alert('Thank you for your message! I will get back to you soon.');
+    // Show loading state
+    submitBtn.disabled = true;
+    btnText.textContent = 'Sending...';
+    btnIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     
-    // Reset form
-    e.target.reset();
+    // EmailJS Configuration
+    // IMPORTANT: You need to replace these values with your EmailJS credentials
+    // See EMAILJS_SETUP.md file for detailed setup instructions
+    // 1. Sign up at https://www.emailjs.com/ (free account)
+    // 2. Create an email service (Gmail, Outlook, etc.)
+    // 3. Create an email template
+    // 4. Get your Public Key, Service ID, and Template ID from EmailJS dashboard
+    // 5. Replace the values below:
+    
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your EmailJS Public Key
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your EmailJS Service ID
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your EmailJS Template ID
+    const RECIPIENT_EMAIL = 'www44victor@gmail.com'; // Your email address
+    
+    // Check if EmailJS is configured
+    if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY' || 
+        EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID' || 
+        EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID') {
+        submitBtn.disabled = false;
+        btnText.textContent = originalText;
+        btnIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        showFormMessage('error', 'EmailJS is not configured yet. Please check EMAILJS_SETUP.md for setup instructions.');
+        return;
+    }
+    
+    try {
+        // Initialize EmailJS with your Public Key
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+        } else {
+            throw new Error('EmailJS library not loaded. Please check your internet connection.');
+        }
+        
+        // Send email using EmailJS
+        const response = await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            {
+                to_email: RECIPIENT_EMAIL,
+                from_name: name,
+                from_email: email,
+                subject: subject,
+                message: message,
+                reply_to: email
+            }
+        );
+        
+        // Success - show success message
+        showFormMessage('success', 'Thank you for your message! I will get back to you soon.');
+        
+        // Reset form
+        e.target.reset();
+        
+    } catch (error) {
+        // Error - show error message
+        console.error('EmailJS Error:', error);
+        showFormMessage('error', 'Sorry, there was an error sending your message. Please try again or contact me directly at www44victor@gmail.com');
+    } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        btnText.textContent = originalText;
+        btnIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+    }
+}
+
+// Function to show success/error messages
+function showFormMessage(type, message) {
+    // Remove any existing messages
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `form-message form-message-${type}`;
+    messageDiv.textContent = message;
+    
+    // Insert message before the form
+    const form = document.getElementById('contact-form');
+    form.parentNode.insertBefore(messageDiv, form);
+    
+    // Auto-remove message after 5 seconds
+    setTimeout(() => {
+        messageDiv.style.opacity = '0';
+        messageDiv.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 300);
+    }, 5000);
 }
 
 function animateSkillBars() {
