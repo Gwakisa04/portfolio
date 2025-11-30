@@ -8,153 +8,175 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-        <em><i class="fas fa-moon"></i></em>
-    </div>
-
-    <div class="nav-backdrop"></div>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">Bakari Moses</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">About</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="index.html#services">Services</a></li>
-                    <li><a href="contact.html" class="active">Contact</a></li>
-                </ul>
-                <div class="burger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="contact-hero">
-            <div class="container">
-                <h1 class="animate-text">Get In Touch</h1>
-                <p class="animate-text delay-1">Have a question or want to work together? Feel free to contact me!</p>
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-icons">
+                <a href="index.html" class="sidebar-icon" title="Home">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="projects.html" class="sidebar-icon" title="Projects">
+                    <i class="fas fa-briefcase"></i>
+                </a>
+                <a href="index.html#services" class="sidebar-icon" title="Services">
+                    <i class="fas fa-cogs"></i>
+                </a>
+                <a href="contact.html" class="sidebar-icon active" title="Contact">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="index.html#about" class="sidebar-icon" title="About">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
-        </section>
+        </aside>
 
-        <section class="contact">
-            <div class="container">
-                <div class="contact-grid">
-                    <div class="contact-info">
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <div class="logo">Bakari Moses</div>
+                    <nav class="header-nav">
+                        <a href="index.html" class="nav-item">Home</a>
+                        <a href="projects.html" class="nav-item">Projects</a>
+                        <a href="index.html#services" class="nav-item">Services</a>
+                        <a href="contact.html" class="nav-item active">Contact</a>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="profile-pic">
+                        <img src="img/photo.jpg" alt="Bakari Moses">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="dashboard-main">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h1>Get In <span class="highlight">Touch</span></h1>
+                    <p class="welcome-subtitle">Have a question or want to work together? Feel free to contact me!</p>
+                </div>
+
+                <!-- Contact Grid -->
+                <div class="dashboard-grid">
+                    <!-- Contact Info -->
+                    <div class="contact-info-dashboard">
                         <h2>Contact Information</h2>
                         <p>Feel free to reach out to me through any of the following methods. I'll get back to you as soon as possible.</p>
                         
-                        <div class="contact-item">
-                            <div class="contact-icon">
+                        <div class="contact-item-dashboard">
+                            <div class="contact-icon-dashboard">
                                 <i class="fas fa-envelope"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-text-dashboard">
                                 <h3>Email</h3>
                                 <p>www44victor@gmail.com</p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <div class="contact-icon">
+                        <div class="contact-item-dashboard">
+                            <div class="contact-icon-dashboard">
                                 <i class="fas fa-phone"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-text-dashboard">
                                 <h3>Phone</h3>
-                                <p>+255 123 456 769</p>
+                                <p>+255 616 509 415</p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <div class="contact-icon">
+                        <div class="contact-item-dashboard">
+                            <div class="contact-icon-dashboard">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            <div class="contact-text">
+                            <div class="contact-text-dashboard">
                                 <h3>Location</h3>
                                 <p>Ubungo, Dar es Salaam, Tanzania</p>
                             </div>
                         </div>
                         
-                        <div class="social-links-contact">
-                            <h3>Connect With Me</h3>
-                            <div class="social-icons">
-                                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <div class="contact-item-dashboard">
+                            <div class="contact-icon-dashboard">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-text-dashboard">
+                                <h3>WhatsApp</h3>
+                                <p>+255 616 509 415</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                            <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px;">Connect With Me</h3>
+                            <div class="social-links">
+                                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="contact-form-container">
+                    <!-- Contact Form -->
+                    <div class="contact-form-dashboard">
                         <h2>Send Me a Message</h2>
-                        <form id="contact-form" class="contact-form">
-                            <div class="form-group">
+                        <form id="contact-form">
+                            <div class="form-group-dashboard">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" required>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group-dashboard">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" required>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group-dashboard">
                                 <label for="subject">Subject</label>
                                 <input type="text" id="subject" name="subject" required>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group-dashboard">
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="5" required></textarea>
                             </div>
                             
-                            <button type="submit" class="btn primary-btn submit-btn">
+                            <button type="submit" class="btn-primary" style="width: 100%; padding: 12px; font-size: 16px;">
                                 <span class="btn-text">Send Message</span>
-                                <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+                                <i class="fas fa-paper-plane" style="margin-left: 8px;"></i>
                             </button>
                         </form>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <section class="map">
-            <div class="container">
-                <h2>Find Me Here</h2>
-                <div class="map-container">
-                    <!-- Replace with actual map embed code -->
-                    <div class="map-placeholder">Google Map will be displayed here</div>
-                </div>
-            </div>
-        </section>
-    </main>
+            </main>
+        </div>
+    </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-contact">
-                    <div class="whatsapp-contact">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>+255 123 456 769</span>
-                        <span class="whatsapp-text">Chat with me on WhatsApp</span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-contact">
+                <div class="whatsapp-contact">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+255 616 509 415</span>
+                    <span class="whatsapp-text">Chat with me on WhatsApp</span>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
+            <div class="social-links">
+                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
         </div>
     </footer>
 

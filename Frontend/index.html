@@ -8,53 +8,255 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-        <em><i class="fas fa-moon"></i></em>
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-icons">
+                <a href="index.html" class="sidebar-icon active" title="Home">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="projects.html" class="sidebar-icon" title="Projects">
+                    <i class="fas fa-briefcase"></i>
+                </a>
+                <a href="#services" class="sidebar-icon" title="Services">
+                    <i class="fas fa-cogs"></i>
+                </a>
+                <a href="contact.html" class="sidebar-icon" title="Contact">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="#about" class="sidebar-icon" title="About">
+                    <i class="fas fa-user"></i>
+                </a>
     </div>
+        </aside>
 
-    <div class="nav-backdrop"></div>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">Bakari Moses</div>
-                <ul class="nav-links">
-                    <li><a href="index.html" class="active">About</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="burger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <div class="logo">Bakari Moses</div>
+                    <nav class="header-nav">
+                        <a href="index.html" class="nav-item active">Home</a>
+                        <a href="projects.html" class="nav-item">Projects</a>
+                        <a href="#services" class="nav-item">Services</a>
+                        <a href="contact.html" class="nav-item">Contact</a>
+                    </nav>
                 </div>
-            </nav>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="profile-pic">
+                        <img src="img/photo.jpg" alt="Bakari Moses">
+                    </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="animate-text">Hi, I'm <span class="highlight">Bakari Moses</span></h1>
-                    <h2 class="animate-text delay-1">Full-Stack Developer</h2>
-                    <p class="animate-text delay-2">I build custom business systems; HR, eCommerce, School, CRM, POS, and booking platforms.</p>
-                    <div class="cta-buttons animate-text delay-3">
-                        <a href="projects.html" class="btn primary-btn">View My Work</a>
-                    </div>
+            <!-- Dashboard Content -->
+            <main class="dashboard-main">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h1>Hi, I'm <span class="highlight">Bakari Moses</span></h1>
+                    <p class="welcome-subtitle">Full-Stack Developer | This month I've delivered <strong>$331,224.74</strong> worth of business solutions</p>
                 </div>
-                <div class="hero-image animate-fade-in">
-                    <div class="profile-img-container">
-                        <!-- profile image -->
-                        <div class="profile-placeholder"><img src="img/photo.jpg"></div>
+
+                <!-- Main Content Grid -->
+                <div class="dashboard-grid">
+                    <!-- Left Column - Main Content -->
+                    <div class="dashboard-main-col">
+                        <!-- Featured Project Card -->
+                        <div class="dashboard-card featured-card">
+                            <div class="featured-content">
+                                <div class="featured-image">
+                                    <img src="img/photo.jpg" alt="Bakari Moses">
+                                </div>
+                                <div class="featured-text">
+                                    <span class="insight-label">Portfolio Insight</span>
+                                    <h3>Full-Stack Development Expert</h3>
+                                    <p>Specializing in custom business systems, loved by clients for delivering scalable, modern solutions with sleek designs and robust functionality. Expert in HR, eCommerce, School Management, CRM, POS, and booking platforms.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Projects Statistics -->
+                        <div class="dashboard-card">
+                            <div class="card-tabs">
+                                <button class="tab-btn active">Active Projects</button>
+                                <button class="tab-btn">Completed</button>
+                            </div>
+                            <div class="stats-content">
+                                <div class="stat-highlight">
+                                    <h2>4</h2>
+                                    <p>Featured Projects This Month</p>
+                                    <span class="stat-change positive">+100%</span>
+                                </div>
+                                <div class="chart-placeholder">
+                                    <div class="chart-bars">
+                                        <div class="chart-bar" style="height: 60%;">
+                                            <span>Sep</span>
+                                        </div>
+                                        <div class="chart-bar active" style="height: 90%;">
+                                            <span>Oct</span>
+                                        </div>
+                                        <div class="chart-bar" style="height: 70%;">
+                                            <span>Nov</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills & Services Grid -->
+                        <div class="dashboard-cards-grid">
+                            <div class="dashboard-card small-card">
+                                <h4>Client Satisfaction</h4>
+                                <div class="stat-number">95%</div>
+                                <p class="stat-change positive">+5.3% from last month</p>
+                            </div>
+                            <div class="dashboard-card small-card">
+                                <h4>Projects Completed</h4>
+                                <div class="stat-number">24+</div>
+                                <p class="stat-change positive">This year</p>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <div class="dashboard-card" id="about">
+                            <h3>About Me</h3>
+                            <p>I am a Full-Stack Developer specializing in building custom business solutions for offices, shops, supermarkets, and enterprises. With extensive experience in both front-end and back-end technologies, I create robust, scalable systems that streamline operations and drive business growth.</p>
+                            <div class="skills-section">
+                                <h4>Technical Skills</h4>
+                                <div class="skills-grid">
+                                    <div class="skill-item">
+                                        <span>PHP & Laravel</span>
+                                        <div class="skill-progress">
+                                            <div class="skill-fill" style="width: 95%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span>React & Vue.js</span>
+                                        <div class="skill-progress">
+                                            <div class="skill-fill" style="width: 90%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span>Node.js</span>
+                                        <div class="skill-progress">
+                                            <div class="skill-fill" style="width: 88%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="skill-item">
+                                        <span>MySQL & PostgreSQL</span>
+                                        <div class="skill-progress">
+                                            <div class="skill-fill" style="width: 92%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Right Sidebar -->
+                    <aside class="dashboard-sidebar">
+                        <!-- Time Period Selector -->
+                        <div class="period-selector">
+                            <button class="period-btn active">All</button>
+                            <button class="period-btn">Today</button>
+                            <button class="period-btn">Week</button>
+                            <button class="period-btn">Month</button>
+                        </div>
+
+                        <!-- Stats Widgets -->
+                        <div class="dashboard-card widget-card">
+                            <h4>Average Response Time</h4>
+                            <div class="widget-stat">2.4 hrs</div>
+                            <p class="widget-change positive">0.3 hrs faster than last month</p>
+                            <div class="mini-chart">
+                                <div class="chart-line">
+                                    <div class="line-point" style="height: 40%;"></div>
+                                    <div class="line-point" style="height: 60%;"></div>
+                                    <div class="line-point" style="height: 50%;"></div>
+                                    <div class="line-point" style="height: 70%;"></div>
+                                    <div class="line-point" style="height: 55%;"></div>
+                                    <div class="line-point" style="height: 65%;"></div>
+                                    <div class="line-point" style="height: 45%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card widget-card">
+                            <h4>Total Projects Value</h4>
+                            <div class="widget-stat">$414.41K</div>
+                            <p class="widget-change positive">$0.25K more than last month</p>
+                            <div class="mini-chart">
+                                <div class="chart-bars-mini">
+                                    <div class="bar-mini" style="height: 50%;"></div>
+                                    <div class="bar-mini" style="height: 70%;"></div>
+                                    <div class="bar-mini" style="height: 60%;"></div>
+                                    <div class="bar-mini" style="height: 80%;"></div>
+                                    <div class="bar-mini" style="height: 65%;"></div>
+                                    <div class="bar-mini" style="height: 75%;"></div>
+                                    <div class="bar-mini" style="height: 55%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card widget-card">
+                            <h4>This Month's Progress</h4>
+                            <div class="widget-stat">$177,349.50</div>
+                            <p class="widget-subtitle">Last month: $129,182.90</p>
+                            <div class="progress-ring">
+                                <div class="progress-value">76%</div>
+                                <p>Goal achieved</p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <!-- Services Section -->
+                <section class="services-section" id="services">
+                    <h2 class="section-title">Services I Offer</h2>
+                    <div class="services-grid-dashboard">
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-users"></i>
+                            <h3>Custom HR & Payroll Systems</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>School Management Systems</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h3>E-commerce & Inventory Systems</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-cash-register"></i>
+                            <h3>POS & Billing Systems</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-plug"></i>
+                            <h3>API Integrations</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Mobile App UI & Dashboard Design</h3>
+                        </div>
+                        <div class="service-card-dashboard">
+                            <i class="fas fa-globe"></i>
+                            <h3>Business Websites</h3>
+                        </div>
+                    </div>
+                </section>
+            </main>
                 </div>
             </div>
-        </section>
 
         <section class="about">
             <div class="container">
@@ -107,49 +309,24 @@
             </div>
         </section>
 
-        <section class="services" id="services">
-            <div class="container">
-                <h2 class="section-title">Services I Offer</h2>
-                <div class="services-list">
-                    <div class="services-column">
-                        <ul class="service-list">
-                            <li><i class="fas fa-check-circle"></i> Custom HR & Payroll Systems</li>
-                            <li><i class="fas fa-check-circle"></i> School Management Systems</li>
-                            <li><i class="fas fa-check-circle"></i> E-commerce & Inventory Systems</li>
-                            <li><i class="fas fa-check-circle"></i> POS & Billing Systems</li>
-                        </ul>
-                    </div>
-                    <div class="services-column">
-                        <ul class="service-list">
-                            <li><i class="fas fa-check-circle"></i> API Integrations</li>
-                            <li><i class="fas fa-check-circle"></i> Mobile App UI & Dashboard Design</li>
-                            <li><i class="fas fa-check-circle"></i> Business Websites</li>
-                        </ul>
-                    </div>
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-contact">
+                <div class="whatsapp-contact">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+255 616 509 415</span>
+                    <span class="whatsapp-text">Chat with me on WhatsApp</span>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-contact">
-                    <div class="whatsapp-contact">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>+255 616 509 415</span>
-                        <span class="whatsapp-text">Chat with me on WhatsApp</span>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
+            <div class="social-links">
+                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
-            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
         </div>
     </footer>
 

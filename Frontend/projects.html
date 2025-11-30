@@ -8,164 +8,188 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round"></div>
-        </label>
-        <em><i class="fas fa-moon"></i></em>
-    </div>
-
-    <div class="nav-backdrop"></div>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">Bakari Moses</div>
-                <ul class="nav-links">
-                    <li><a href="index.html">About</a></li>
-                    <li><a href="projects.html" class="active">Projects</a></li>
-                    <li><a href="index.html#services">Services</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="burger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="projects-hero">
-            <div class="container">
-                <h1 class="animate-text">Featured Projects</h1>
-                <p class="animate-text delay-1">Professional business systems built with modern technologies. Each project demonstrates my expertise in full-stack development.</p>
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-icons">
+                <a href="index.html" class="sidebar-icon" title="Home">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="projects.html" class="sidebar-icon active" title="Projects">
+                    <i class="fas fa-briefcase"></i>
+                </a>
+                <a href="index.html#services" class="sidebar-icon" title="Services">
+                    <i class="fas fa-cogs"></i>
+                </a>
+                <a href="contact.html" class="sidebar-icon" title="Contact">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="index.html#about" class="sidebar-icon" title="About">
+                    <i class="fas fa-user"></i>
+                </a>
             </div>
-        </section>
+        </aside>
 
-        <section class="projects">
-            <div class="container">
-                <div class="projects-grid">
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <div class="logo">Bakari Moses</div>
+                    <nav class="header-nav">
+                        <a href="index.html" class="nav-item">Home</a>
+                        <a href="projects.html" class="nav-item active">Projects</a>
+                        <a href="index.html#services" class="nav-item">Services</a>
+                        <a href="contact.html" class="nav-item">Contact</a>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="profile-pic">
+                        <img src="img/photo.jpg" alt="Bakari Moses">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <main class="dashboard-main">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h1>Featured <span class="highlight">Projects</span></h1>
+                    <p class="welcome-subtitle">Professional business systems built with modern technologies. Each project demonstrates my expertise in full-stack development.</p>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid-dashboard">
                     <!-- Project 1: SecureHR System -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <div class="project-placeholder">
-                                <div class="project-screenshot">HR Dashboard Preview</div>
+                    <div class="dashboard-card project-card-dashboard">
+                        <div class="project-image-wrapper">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-users"></i>
+                                <span>HR Dashboard</span>
                             </div>
                         </div>
-                        <div class="project-info">
+                        <div class="project-content">
                             <h3>SecureHR System</h3>
                             <p>HR & Payroll Dashboard - Comprehensive human resources management system with employee tracking, payroll processing, and analytics.</p>
                             <div class="project-tags">
-                                <span>PHP</span>
-                                <span>Python</span>
-                                <span>MySQL</span>
+                                <span class="tag">PHP</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">MySQL</span>
                             </div>
-                            <div class="project-links">
-                                <a href="contact.html" class="btn small-btn">View Project</a>
-                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <div class="project-actions">
+                                <a href="contact.html" class="btn-primary">View Project</a>
+                                <a href="#" class="btn-icon"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Project 2: E-Commerce System -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <div class="project-placeholder">
-                                <div class="project-screenshot">E-Commerce Dashboard Preview</div>
+                    <div class="dashboard-card project-card-dashboard">
+                        <div class="project-image-wrapper">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>E-Commerce</span>
                             </div>
                         </div>
-                        <div class="project-info">
+                        <div class="project-content">
                             <h3>E-Commerce System</h3>
                             <p>Product Listing - Full-featured e-commerce platform with inventory management, order processing, and customer management.</p>
                             <div class="project-tags">
-                                <span>React</span>
-                                <span>Node.js</span>
-                                <span>MongoDB</span>
+                                <span class="tag">React</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
                             </div>
-                            <div class="project-links">
-                                <a href="contact.html" class="btn small-btn">View Project</a>
-                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <div class="project-actions">
+                                <a href="contact.html" class="btn-primary">View Project</a>
+                                <a href="#" class="btn-icon"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Project 3: School Management System -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <div class="project-placeholder">
-                                <div class="project-screenshot">School Management Dashboard Preview</div>
+                    <div class="dashboard-card project-card-dashboard">
+                        <div class="project-image-wrapper">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>School System</span>
                             </div>
                         </div>
-                        <div class="project-info">
+                        <div class="project-content">
                             <h3>School Management System</h3>
                             <p>POS System - Complete school administration system with student management, attendance tracking, and academic records.</p>
                             <div class="project-tags">
-                                <span>PHP</span>
-                                <span>Laravel</span>
-                                <span>MySQL</span>
+                                <span class="tag">PHP</span>
+                                <span class="tag">Laravel</span>
+                                <span class="tag">MySQL</span>
                             </div>
-                            <div class="project-links">
-                                <a href="contact.html" class="btn small-btn">View Project</a>
-                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <div class="project-actions">
+                                <a href="contact.html" class="btn-primary">View Project</a>
+                                <a href="#" class="btn-icon"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Project 4: POS System -->
-                    <div class="project-card">
-                        <div class="project-img">
-                            <div class="project-placeholder">
-                                <div class="project-screenshot">POS Dashboard Preview</div>
+                    <div class="dashboard-card project-card-dashboard">
+                        <div class="project-image-wrapper">
+                            <div class="project-image-placeholder">
+                                <i class="fas fa-cash-register"></i>
+                                <span>POS System</span>
                             </div>
                         </div>
-                        <div class="project-info">
+                        <div class="project-content">
                             <h3>POS System</h3>
                             <p>Point of Sale System - Retail management solution with sales tracking, inventory control, and customer management.</p>
                             <div class="project-tags">
-                                <span>Vue.js</span>
-                                <span>Node.js</span>
-                                <span>PostgreSQL</span>
+                                <span class="tag">Vue.js</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">PostgreSQL</span>
                             </div>
-                            <div class="project-links">
-                                <a href="contact.html" class="btn small-btn">View Project</a>
-                                <a href="#" class="project-link"><i class="fab fa-github"></i></a>
+                            <div class="project-actions">
+                                <a href="contact.html" class="btn-primary">View Project</a>
+                                <a href="#" class="btn-icon"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="cta">
-            <div class="container">
-                <h2>Interested in working together?</h2>
-                <p>I'm always open to discussing new projects and opportunities.</p>
-                <a href="contact.html" class="btn primary-btn">Get In Touch</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-contact">
-                    <div class="whatsapp-contact">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>+255 123 456 769</span>
-                        <span class="whatsapp-text">Chat with me on WhatsApp</span>
-                    </div>
+                <!-- CTA Section -->
+                <div class="dashboard-card cta-card">
+                    <h2>Interested in working together?</h2>
+                    <p>I'm always open to discussing new projects and opportunities.</p>
+                    <a href="contact.html" class="btn-primary">Get In Touch</a>
                 </div>
-                <div class="social-links">
-                    <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-contact">
+                <div class="whatsapp-contact">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>+255 616 509 415</span>
+                    <span class="whatsapp-text">Chat with me on WhatsApp</span>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
+            <div class="social-links">
+                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Bakari Moses. All Rights Reserved.</p>
         </div>
     </footer>
 
