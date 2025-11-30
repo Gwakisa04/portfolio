@@ -256,7 +256,10 @@ img {
 /* ===== DASHBOARD MAIN CONTENT ===== */
 .dashboard-main {
     flex: 1;
-    padding: 32px;
+    padding: 32px 32px 32px 40px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* ===== WELCOME BANNER ===== */
@@ -291,12 +294,18 @@ img {
     grid-template-columns: 1fr 320px;
     gap: 24px;
     margin-bottom: 32px;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .dashboard-main-col {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 /* ===== DASHBOARD CARDS ===== */
@@ -307,6 +316,10 @@ img {
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
     transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .dashboard-card:hover {
@@ -528,6 +541,10 @@ img {
 /* ===== ABOUT CARD ===== */
 .about-card {
     margin-top: 24px;
+    width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .about-header {
@@ -541,6 +558,7 @@ img {
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 8px;
+    word-wrap: break-word;
 }
 
 .about-subtitle {
@@ -548,18 +566,22 @@ img {
     color: var(--accent-blue);
     font-weight: 500;
     margin: 0;
+    word-wrap: break-word;
 }
 
 .about-content-wrapper {
     display: flex;
     flex-direction: column;
     gap: 32px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .about-description {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
 }
 
 .about-description p {
@@ -567,6 +589,9 @@ img {
     line-height: 1.8;
     color: var(--text-secondary);
     margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 /* ===== SKILLS SECTION ===== */
@@ -593,18 +618,25 @@ img {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    min-width: 0;
 }
 
 .skill-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    gap: 12px;
 }
 
 .skill-header span:first-child {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
 }
 
 .skill-percentage {
