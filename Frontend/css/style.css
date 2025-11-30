@@ -525,45 +525,108 @@ img {
     font-size: 12px;
 }
 
-/* ===== SKILLS SECTION ===== */
-.skills-section {
+/* ===== ABOUT CARD ===== */
+.about-card {
     margin-top: 24px;
 }
 
-.skills-section h4 {
-    margin-bottom: 16px;
+.about-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
 }
 
-.skills-grid {
+.about-header h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.about-subtitle {
+    font-size: 16px;
+    color: var(--accent-blue);
+    font-weight: 500;
+    margin: 0;
+}
+
+.about-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.about-description {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+.about-description p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ===== SKILLS SECTION ===== */
+.skills-section {
+    margin-top: 0;
+}
+
+.skills-section h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .skill-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
-.skill-item span {
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skill-header span:first-child {
     font-size: 14px;
-    font-weight: 500;
-    color: var(--text-secondary);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.skill-percentage {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-blue);
 }
 
 .skill-progress {
-    height: 8px;
+    height: 10px;
     background-color: var(--bg-primary);
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: hidden;
+    position: relative;
 }
 
 .skill-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-    border-radius: 4px;
-    transition: width 0.5s ease;
+    border-radius: 6px;
+    transition: width 0.8s ease;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
 }
 
 /* ===== RIGHT SIDEBAR ===== */
@@ -761,6 +824,15 @@ img {
     display: flex;
     align-items: center;
     gap: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+}
+
+.whatsapp-contact:hover {
+    background-color: var(--accent-green-light);
+    transform: translateY(-2px);
 }
 
 .whatsapp-contact i {
@@ -777,6 +849,19 @@ img {
     font-size: 14px;
     color: var(--text-secondary);
     margin-left: 8px;
+}
+
+.contact-link {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.contact-link:hover {
+    color: var(--accent-green);
+    text-decoration: underline;
 }
 
 .social-links {
@@ -1047,8 +1132,8 @@ img {
     background-color: var(--accent-blue-light);
     border-radius: var(--radius-sm);
     display: flex;
-    align-items: center;
-    justify-content: center;
+        align-items: center;
+        justify-content: center;
     color: var(--accent-blue);
     font-size: 20px;
     flex-shrink: 0;
@@ -1172,5 +1257,5 @@ img {
 
     .chart-placeholder {
         width: 100%;
-    }
+}
 }
