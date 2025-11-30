@@ -523,6 +523,12 @@ img {
     gap: 24px;
 }
 
+@media screen and (min-width: 1200px) {
+    .dashboard-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 .small-card {
     text-align: center;
 }
@@ -536,6 +542,83 @@ img {
 
 .small-card .stat-change {
     font-size: 12px;
+}
+
+/* ===== INCOME CARDS ===== */
+.income-card {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+    color: white;
+    border: none;
+}
+
+.income-card h4 {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.income-card .stat-number {
+    color: white;
+    font-size: 32px;
+}
+
+.income-card .stat-change {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.revenue-card {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+    color: white;
+    border: none;
+}
+
+.revenue-card h4 {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.revenue-card .stat-number {
+    color: white;
+    font-size: 32px;
+}
+
+.revenue-card .stat-change {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.income-amount,
+.revenue-amount {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-green);
+    word-break: break-word;
+}
+
+.income-widget {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-green);
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+.revenue-stat {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.revenue-stat h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.revenue-stat .revenue-amount {
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
 /* ===== ABOUT CARD ===== */
