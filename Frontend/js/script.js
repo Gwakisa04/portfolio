@@ -196,11 +196,13 @@ function handleScroll() {
     }
     
     // Animate elements when they come into view
-    const animateElements = document.querySelectorAll('.service-card, .project-card, .contact-item');
+    const animateElements = document.querySelectorAll(
+        '.dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
+    );
     
     animateElements.forEach(element => {
         const elementPosition = element.getBoundingClientRect().top;
-        const screenPosition = window.innerHeight / 1.3;
+        const screenPosition = window.innerHeight / 1.1;
         
         if (elementPosition < screenPosition) {
             element.classList.add('animate');
@@ -227,7 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Add animation class to elements that should animate on page load
-    document.querySelectorAll('.service-card, .project-card, .contact-item').forEach(element => {
+    document.querySelectorAll(
+        '.dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
+    ).forEach(element => {
         element.classList.add('animate-on-load');
     });
 });

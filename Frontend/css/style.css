@@ -1,7 +1,7 @@
 /* ===== DASHBOARD STYLE VARIABLES ===== */
 :root {
     /* Dashboard Color Scheme */
-    --bg-primary: #f5f7fa;
+    --bg-primary: #fef3ea;
     --bg-white: #ffffff;
     --bg-card: #ffffff;
     --text-primary: #1a1a1a;
@@ -58,8 +58,8 @@ img {
 /* ===== LEFT SIDEBAR ===== */
 .sidebar {
     width: 80px;
-    background-color: var(--bg-white);
-    border-right: 1px solid var(--border-color);
+    background-color: #111827;
+    border-right: 1px solid #020617;
     position: fixed;
     left: 0;
     top: 0;
@@ -87,19 +87,19 @@ img {
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    color: #9ca3af;
     transition: all 0.2s ease;
     font-size: 20px;
 }
 
 .sidebar-icon:hover {
-    background-color: var(--accent-blue-light);
-    color: var(--accent-blue);
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fef3ea;
 }
 
 .sidebar-icon.active {
     background-color: var(--accent-blue);
-    color: white;
+    color: #111827;
 }
 
 /* ===== MAIN CONTENT AREA ===== */
@@ -1247,8 +1247,8 @@ img {
     background-color: var(--accent-blue-light);
     border-radius: var(--radius-sm);
     display: flex;
-        align-items: center;
-        justify-content: center;
+    align-items: center;
+    justify-content: center;
     color: var(--accent-blue);
     font-size: 20px;
     flex-shrink: 0;
