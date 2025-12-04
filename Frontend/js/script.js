@@ -17,14 +17,18 @@ const currentTheme = localStorage.getItem('theme');
 function setTheme(isDark) {
     if (isDark) {
         body.setAttribute('data-theme', 'dark');
+        if (toggleSwitch) {
         toggleSwitch.checked = true;
+        }
         if (themeIcon) {
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
         }
     } else {
         body.removeAttribute('data-theme');
+        if (toggleSwitch) {
         toggleSwitch.checked = false;
+        }
         if (themeIcon) {
             themeIcon.classList.remove('fa-sun');
             themeIcon.classList.add('fa-moon');
@@ -34,11 +38,14 @@ function setTheme(isDark) {
 
 function toggleNav() {
     // Toggle navigation menu
+    if (!navLinks || !burger) return;
+    
     navLinks.classList.toggle('nav-active');
     burger.classList.toggle('toggle');
     body.classList.toggle('menu-open');
     
     // Animate Links with staggered delay
+    if (navLinksItems && navLinksItems.length > 0) {
     navLinksItems.forEach((link, index) => {
         if (link.style.animation) {
             link.style.animation = '';
@@ -50,6 +57,7 @@ function toggleNav() {
             link.style.transform = 'translateY(0)';
         }
     });
+    }
     
     // Prevent scrolling when menu is open
     if (body.classList.contains('menu-open')) {
@@ -60,6 +68,8 @@ function toggleNav() {
 }
 
 function filterProjects(category) {
+    if (!projectCards || projectCards.length === 0) return;
+    
     projectCards.forEach(card => {
         const cardCategory = card.getAttribute('data-category');
         
@@ -132,9 +142,9 @@ async function handleContactFormSubmit(e) {
         
         // Success - show success message
         showFormMessage('success', 'Thank you for your message! I will get back to you soon.');
-        
-        // Reset form
-        e.target.reset();
+    
+    // Reset form
+    e.target.reset();
         
     } catch (error) {
         // Error - show error message
@@ -222,7 +232,7 @@ function toggleSidebar() {
         if (window.innerWidth <= 1024) {
             if (sidebar.classList.contains('mobile-open')) {
                 body.classList.add('sidebar-open');
-            } else {
+    } else {
                 body.classList.remove('sidebar-open');
             }
         }
@@ -284,7 +294,7 @@ function setupScrollAnimations() {
         if (isInViewport) {
             // Small delay to ensure smooth animation
             setTimeout(() => {
-                element.classList.add('animate');
+            element.classList.add('animate');
             }, 100);
         }
     });
@@ -516,7 +526,7 @@ if (burger) {
     
     // Close mobile menu when clicking on backdrop
     const navBackdrop = document.querySelector('.nav-backdrop');
-    if (navBackdrop) {
+    if (navBackdrop && navLinks) {
         navBackdrop.addEventListener('click', () => {
             if (navLinks.classList.contains('nav-active')) {
                 toggleNav();
@@ -525,6 +535,7 @@ if (burger) {
     }
     
     // Close mobile menu when clicking on a nav link
+    if (navLinksItems && navLinksItems.length > 0 && navLinks) {
     navLinksItems.forEach(item => {
         item.addEventListener('click', () => {
             if (navLinks.classList.contains('nav-active')) {
@@ -532,6 +543,7 @@ if (burger) {
             }
         });
     });
+    }
 }
 
 // Project filter events
