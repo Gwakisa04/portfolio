@@ -64,7 +64,7 @@ img {
     padding: 20px 0;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
     box-shadow: var(--shadow-sm);
     transition: all 0.3s ease;
 }
@@ -72,6 +72,13 @@ img {
 .main-header.scrolled {
     box-shadow: var(--shadow-md);
     padding: 15px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 
 .header-content {
@@ -919,8 +926,8 @@ img {
 /* ===== MOBILE MENU ===== */
 .mobile-menu-toggle {
     display: none;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     background-color: var(--teal-dark);
     color: white;
     border: none;
@@ -930,42 +937,60 @@ img {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    position: relative;
+    z-index: 101;
+    flex-shrink: 0;
 }
 
 .mobile-menu-toggle:hover {
     background-color: var(--teal-medium);
+    transform: scale(1.05);
+}
+
+.mobile-menu-toggle:active {
+    transform: scale(0.95);
 }
 
 .mobile-nav {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(30, 41, 59, 0.95);
-    z-index: 9999;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%);
+    backdrop-filter: blur(10px);
+    z-index: 9998;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(-20px);
 }
 
 .mobile-nav.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: all;
+    transform: translateY(0);
 }
 
 .mobile-nav .nav-link {
     color: white;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 600;
-    padding: 15px 30px;
+    padding: 15px 40px;
     border-radius: var(--radius);
     transition: all 0.3s ease;
+    display: block;
+    width: auto;
+    text-align: center;
+    position: relative;
+    z-index: 10000;
 }
 
 .mobile-nav .nav-link:hover,
@@ -991,6 +1016,8 @@ img {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    z-index: 10001;
+    pointer-events: all;
 }
 
 .mobile-nav-close:hover {
@@ -1074,7 +1101,9 @@ img {
     }
 
     .mobile-menu-toggle {
-    display: flex;
+        display: flex !important;
+        z-index: 10000;
+        position: relative;
     }
 
     .header-content {

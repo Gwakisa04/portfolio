@@ -197,8 +197,14 @@ function toggleMobileMenu() {
     const body = document.body;
     
     if (mobileNav) {
-        mobileNav.classList.toggle('active');
-        body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        const isActive = mobileNav.classList.contains('active');
+        if (isActive) {
+            mobileNav.classList.remove('active');
+            body.style.overflow = '';
+        } else {
+            mobileNav.classList.add('active');
+            body.style.overflow = 'hidden';
+        }
     }
 }
 
@@ -319,24 +325,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup scroll animations with Intersection Observer
     setupScrollAnimations();
     
-    // Mobile menu toggle
+    // Mobile menu toggle - Initialize immediately
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const mobileNavClose = document.querySelector('.mobile-nav-close');
+    const mobileNav = document.getElementById('mobileNav');
     const mobileNavLinks = document.querySelectorAll('.mobile-nav .nav-link');
     
+    // Toggle button
     if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-    }
-    
-    if (mobileNavClose) {
-        mobileNavClose.addEventListener('click', toggleMobileMenu);
-    }
-    
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            closeMobileMenu();
+        mobileMenuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMobileMenu();
         });
-    });
+    }
+    
+    // Close button
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMobileMenu();
+        });
+    }
+    
+    // Close when clicking links
+    if (mobileNavLinks.length > 0) {
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                // If it's an anchor link, close menu after scroll
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        toggleMobileMenu();
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    }
+                } else {
+                    // For regular links, close menu immediately
+                    toggleMobileMenu();
+                }
+            });
+        });
+    }
+    
+    // Close when clicking backdrop (outside menu)
+    if (mobileNav) {
+        mobileNav.addEventListener('click', function(e) {
+            if (e.target === mobileNav) {
+                toggleMobileMenu();
+            }
+        });
+    }
     
     // Sidebar toggle for dashboard pages
     const sidebarToggle = document.getElementById('sidebarToggle');
