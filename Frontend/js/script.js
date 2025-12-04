@@ -89,15 +89,18 @@ async function handleContactFormSubmit(e) {
     const message = document.getElementById('message').value;
     
     // Get submit button to show loading state
-    const submitBtn = e.target.querySelector('.submit-btn');
+    const submitBtn = e.target.querySelector('button[type="submit"]');
     const btnText = submitBtn.querySelector('.btn-text');
-    const btnIcon = submitBtn.querySelector('.btn-icon');
-    const originalText = btnText.textContent;
+    const originalText = btnText ? btnText.textContent : submitBtn.textContent;
+    const originalHTML = submitBtn.innerHTML;
     
     // Show loading state
     submitBtn.disabled = true;
-    btnText.textContent = 'Sending...';
-    btnIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    if (btnText) {
+        btnText.textContent = 'Sending...';
+    } else {
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    }
     
     // EmailJS Configuration - All configured! ✅
     const EMAILJS_PUBLIC_KEY = 'avg4OaHFLEedx-T11';
@@ -140,8 +143,11 @@ async function handleContactFormSubmit(e) {
     } finally {
         // Reset button state
         submitBtn.disabled = false;
-        btnText.textContent = originalText;
-        btnIcon.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        if (btnText) {
+            btnText.textContent = originalText;
+        } else {
+            submitBtn.innerHTML = originalHTML;
+        }
     }
 }
 
@@ -187,17 +193,20 @@ function animateSkillBars() {
 
 function handleScroll() {
     const scrollPosition = window.scrollY;
+    const header = document.querySelector('.main-header');
     
     // Add shadow to header on scroll
-    if (scrollPosition > 50) {
-        nav.parentElement.classList.add('scrolled');
-    } else {
-        nav.parentElement.classList.remove('scrolled');
+    if (header) {
+        if (scrollPosition > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     }
     
     // Animate elements when they come into view
     const animateElements = document.querySelectorAll(
-        '.dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
+        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
     );
     
     animateElements.forEach(element => {
@@ -230,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add animation class to elements that should animate on page load
     document.querySelectorAll(
-        '.dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
+        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
     ).forEach(element => {
         element.classList.add('animate-on-load');
     });

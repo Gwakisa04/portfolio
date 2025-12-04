@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,492 +8,351 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Dashboard Layout -->
-    <div class="dashboard-layout">
-        <!-- Left Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-icons">
-                <a href="index.html" class="sidebar-icon active" title="Home">
-                    <i class="fas fa-home"></i>
-                </a>
-                <a href="projects.html" class="sidebar-icon" title="Projects">
-                    <i class="fas fa-briefcase"></i>
-                </a>
-                <a href="#services" class="sidebar-icon" title="Services">
-                    <i class="fas fa-cogs"></i>
-                </a>
-                <a href="contact.html" class="sidebar-icon" title="Contact">
-                    <i class="fas fa-envelope"></i>
-                </a>
-                <a href="#about" class="sidebar-icon" title="About">
-                    <i class="fas fa-user"></i>
-                </a>
-    </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <!-- Top Header -->
-            <header class="dashboard-header">
-                <div class="header-left">
-                    <div class="logo">Victor</div>
-                    <nav class="header-nav">
-                        <a href="index.html" class="nav-item active">Home</a>
-                        <a href="projects.html" class="nav-item">Projects</a>
-                        <a href="#services" class="nav-item">Services</a>
-                        <a href="contact.html" class="nav-item">Contact</a>
-                    </nav>
-                </div>
-                <div class="header-right">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search...">
-                    </div>
-                    <button class="notification-btn">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </button>
-                    <div class="profile-pic">
-                        <img src="img/photo.jpg" alt="Victor">
-                    </div>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">VM</div>
+                <nav class="main-nav">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <a href="#about" class="nav-link">About Us</a>
+                    <a href="#services" class="nav-link">Services</a>
+                    <a href="#experience" class="nav-link">Experience</a>
+                    <a href="projects.html" class="nav-link">Portfolio</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+                <a href="contact.html" class="btn-talk">LET'S TALK</a>
+            </div>
         </div>
     </header>
 
-            <!-- Dashboard Content -->
-            <main class="dashboard-main">
-                <!-- Welcome Banner -->
-                <div class="welcome-banner">
-                    <h1>Hi, I'm <span class="highlight">Victor</span></h1>
-                    <p class="welcome-subtitle">Full-Stack Developer | This month I've delivered <strong>850,000,000 TZS</strong> worth of business solutions</p>
-                </div>
-
-                <!-- Main Content Grid -->
-                <div class="dashboard-grid">
-                    <!-- Left Column - Main Content -->
-                    <div class="dashboard-main-col">
-                        <!-- Featured Project Card -->
-                        <div class="dashboard-card featured-card">
-                            <div class="featured-content">
-                                <div class="featured-image">
-                                    <img src="img/photo.jpg" alt="Victor">
-                                </div>
-                                <div class="featured-text">
-                                    <span class="insight-label">Portfolio Insight</span>
-                                    <h3>Full-Stack Development Expert</h3>
-                                    <p>Specializing in custom business systems, loved by clients for delivering scalable, modern solutions with sleek designs and robust functionality. Expert in HR, eCommerce, School Management, CRM, POS, and booking platforms.</p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Hello, I'm <span class="name-highlight">Victor</span></h1>
+                    <h2 class="hero-subtitle">Full-Stack Developer</h2>
+                    <p class="hero-description">I am a professional full-stack developer with extensive experience of over 4 years in building custom business solutions for offices, shops, supermarkets, and enterprises. I create robust, scalable systems that streamline operations and drive business growth.</p>
+                    <div class="hero-buttons">
+                        <a href="#about" class="btn-outline">LEARN MORE</a>
+                        <a href="contact.html" class="btn-primary-hero">CONTACT ME</a>
                     </div>
                 </div>
-            </div>
-
-                        <!-- Projects Statistics -->
-                        <div class="dashboard-card">
-                            <div class="card-tabs">
-                                <button class="tab-btn active">Active Projects</button>
-                                <button class="tab-btn">Completed</button>
-                            </div>
-                            <div class="stats-content">
-                            <div class="stat-highlight">
-                                <h2>4</h2>
-                                <p>Featured Projects This Month</p>
-                                <span class="stat-change positive">+100%</span>
-                            </div>
-                            <div class="chart-placeholder">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar" style="height: 60%;">
-                                            <span>Sep</span>
-                                        </div>
-                                        <div class="chart-bar active" style="height: 90%;">
-                                            <span>Oct</span>
-                                        </div>
-                                        <div class="chart-bar" style="height: 70%;">
-                                            <span>Nov</span>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Income & Stats Grid -->
-                        <div class="dashboard-cards-grid">
-                            <div class="dashboard-card small-card income-card">
-                                <h4>Monthly Income</h4>
-                                <div class="stat-number income-amount">45,000,000 TZS</div>
-                                <p class="stat-change positive">+12% from last month</p>
-                            </div>
-                            <div class="dashboard-card small-card">
-                                <h4>Client Satisfaction</h4>
-                                <div class="stat-number">95%</div>
-                                <p class="stat-change positive">+5.3% from last month</p>
-                            </div>
-                            <div class="dashboard-card small-card">
-                                <h4>Projects Completed</h4>
-                                <div class="stat-number">24+</div>
-                                <p class="stat-change positive">This year</p>
-                            </div>
-                            <div class="dashboard-card small-card revenue-card">
-                                <h4>Total Revenue</h4>
-                                <div class="stat-number revenue-amount">850,000,000 TZS</div>
-                                <p class="stat-change positive">This year</p>
-                            </div>
-                        </div>
-
-                        <!-- About Section -->
-                        <div class="dashboard-card about-card" id="about">
-                            <div class="about-header">
-                                <h3>About Me</h3>
-                                <p class="about-subtitle">Full-Stack Developer & Business Solutions Expert</p>
-                            </div>
-                            
-                            <div class="about-content-wrapper">
-                                <div class="about-description">
-                                    <p>My name is <strong>Victor Moses Mwakyoma</strong>, a Computer Science major at the University of Dar es Salaam (UDSM) in Dar es Salaam, Tanzania. I started with a strong science foundation at Mzumbe Secondary School, where I studied the PCM combination (Physics, Chemistry, Mathematics), and turned that into solving real business problems with software.</p>
-                                    <p>Over the last few years I’ve delivered <strong>15+ real-world projects</strong> for offices, schools, shops, and supermarkets. Through customer relations training under <strong>StartHub</strong>, I’ve learned how to listen to non-technical clients, understand their challenges, and turn them into clear technical solutions.</p>
-                                    <p>Today I work as a <strong>full-stack developer</strong> focused on HR systems, eCommerce platforms, School Management systems, POS systems, and booking platforms for Tanzanian businesses — building dashboards and tools that make work easier, faster, and more accurate.</p>
-                                </div>
-                                
-                                <div class="skills-section">
-                                    <h4>Technical Skills</h4>
-                                    <div class="skills-grid">
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>PHP & Laravel</span>
-                                                <span class="skill-percentage">95%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 95%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>React & Vue.js</span>
-                                                <span class="skill-percentage">90%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 90%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>Node.js</span>
-                                                <span class="skill-percentage">88%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 88%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>MySQL & PostgreSQL</span>
-                                                <span class="skill-percentage">92%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 92%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>Python</span>
-                                                <span class="skill-percentage">85%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 85%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-item">
-                                            <div class="skill-header">
-                                                <span>MongoDB</span>
-                                                <span class="skill-percentage">80%</span>
-                                            </div>
-                                            <div class="skill-progress">
-                                                <div class="skill-fill" style="width: 80%;"></div>
-                                            </div>
-                                </div>
-                            </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="hero-image">
+                    <div class="hero-image-wrapper">
+                        <img src="img/photo.png" alt="Victor">
                     </div>
-
-                    <!-- Right Sidebar -->
-                    <aside class="dashboard-sidebar">
-                        <!-- Time Period Selector -->
-                        <div class="period-selector">
-                            <button class="period-btn active">All</button>
-                            <button class="period-btn">Today</button>
-                            <button class="period-btn">Week</button>
-                            <button class="period-btn">Month</button>
-                        </div>
-
-                        <!-- Stats Widgets -->
-                        <div class="dashboard-card widget-card">
-                            <h4>Average Response Time</h4>
-                            <div class="widget-stat">2.4 hrs</div>
-                            <p class="widget-change positive">0.3 hrs faster than last month</p>
-                            <div class="mini-chart">
-                                <div class="chart-line">
-                                    <div class="line-point" style="height: 40%;"></div>
-                                    <div class="line-point" style="height: 60%;"></div>
-                                    <div class="line-point" style="height: 50%;"></div>
-                                    <div class="line-point" style="height: 70%;"></div>
-                                    <div class="line-point" style="height: 55%;"></div>
-                                    <div class="line-point" style="height: 65%;"></div>
-                                    <div class="line-point" style="height: 45%;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card widget-card">
-                            <h4>Total Projects Value</h4>
-                            <div class="widget-stat income-widget">1,050,000,000 TZS</div>
-                            <p class="widget-change positive">+150M TZS more than last month</p>
-                            <div class="mini-chart">
-                                <div class="chart-bars-mini">
-                                    <div class="bar-mini" style="height: 50%;"></div>
-                                    <div class="bar-mini" style="height: 70%;"></div>
-                                    <div class="bar-mini" style="height: 60%;"></div>
-                                    <div class="bar-mini" style="height: 80%;"></div>
-                                    <div class="bar-mini" style="height: 65%;"></div>
-                                    <div class="bar-mini" style="height: 75%;"></div>
-                                    <div class="bar-mini" style="height: 55%;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card widget-card">
-                            <h4>This Month's Income</h4>
-                            <div class="widget-stat income-widget">45,000,000 TZS</div>
-                            <p class="widget-subtitle">Last month: 40,200,000 TZS</p>
-                            <div class="progress-ring">
-                                <div class="progress-value">112%</div>
-                                <p>Goal achieved</p>
-                            </div>
-                        </div>
-                    </aside>
                 </div>
-
-                <!-- Services Section -->
-                <section class="services-section" id="services">
-                    <h2 class="section-title">Services I Offer</h2>
-                    <div class="services-grid-dashboard">
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-users"></i>
-                            <h3>Custom HR & Payroll Systems</h3>
-                        </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>School Management Systems</h3>
-                        </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-shopping-cart"></i>
-                            <h3>E-commerce & Inventory Systems</h3>
-                    </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-cash-register"></i>
-                            <h3>POS & Billing Systems</h3>
-                        </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-plug"></i>
-                            <h3>API Integrations</h3>
-                    </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-mobile-alt"></i>
-                            <h3>Mobile App UI & Dashboard Design</h3>
-                        </div>
-                        <div class="service-card-dashboard">
-                            <i class="fas fa-globe"></i>
-                            <h3>Business Websites</h3>
-                </div>
-            </div>
-        </section>
-
-                <!-- Work Process Section -->
-                <section class="work-process-section">
-                    <h2 class="section-title">How I Work</h2>
-                    <div class="process-grid">
-                        <div class="process-step">
-                            <div class="process-number">1</div>
-                            <h3>Discovery & Planning</h3>
-                            <p>I start by understanding your business needs, goals, and requirements through detailed consultations.</p>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-number">2</div>
-                            <h3>Design & Prototyping</h3>
-                            <p>I create wireframes and prototypes to visualize the solution before development begins.</p>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-number">3</div>
-                            <h3>Development</h3>
-                            <p>I build your system using modern technologies, following best practices and coding standards.</p>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-number">4</div>
-                            <h3>Testing & Quality Assurance</h3>
-                            <p>Thorough testing ensures your system is bug-free, secure, and performs optimally.</p>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-number">5</div>
-                            <h3>Deployment & Launch</h3>
-                            <p>I handle deployment, server setup, and ensure smooth go-live for your business.</p>
-                        </div>
-                        <div class="process-step">
-                            <div class="process-number">6</div>
-                            <h3>Support & Maintenance</h3>
-                            <p>Ongoing support, updates, and maintenance to keep your system running smoothly.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Experience Timeline -->
-                <section class="experience-section">
-                    <h2 class="section-title">Experience & Expertise</h2>
-                    <div class="experience-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-year">5+</div>
-                            <div class="timeline-content">
-                                <h3>Years of Experience</h3>
-                                <p>Building custom business solutions and web applications</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">24+</div>
-                            <div class="timeline-content">
-                                <h3>Projects Completed</h3>
-                                <p>Successfully delivered projects across various industries</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">15+</div>
-                            <div class="timeline-content">
-                                <h3>Technologies Mastered</h3>
-                                <p>Proficient in modern frameworks and programming languages</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">95%</div>
-                            <div class="timeline-content">
-                                <h3>Client Satisfaction Rate</h3>
-                                <p>Consistently high ratings from satisfied clients</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Testimonials Section -->
-                <section class="testimonials-section">
-                    <h2 class="section-title">What Clients Say</h2>
-                    <div class="testimonials-grid">
-                        <div class="testimonial-card">
-                            <div class="testimonial-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"Victor delivered an excellent HR system for our company. The system is user-friendly, efficient, and has significantly improved our operations. Highly recommended!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="author-info">
-                                    <h4>Business Owner</h4>
-                                    <p>Dar es Salaam</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <div class="testimonial-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"Working with Victor was a great experience. He understood our needs and delivered a POS system that exceeded our expectations. Professional and reliable!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="author-info">
-                                    <h4>Retail Manager</h4>
-                                    <p>Tanzania</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <div class="testimonial-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"The school management system Victor built for us is outstanding. It has streamlined our administrative tasks and improved efficiency. Great work!"</p>
-                            <div class="testimonial-author">
-                                <div class="author-avatar">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="author-info">
-                                    <h4>School Administrator</h4>
-                                    <p>Dar es Salaam</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- FAQ Section -->
-                <section class="faq-section">
-                    <h2 class="section-title">Frequently Asked Questions</h2>
-                    <div class="faq-grid">
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> How long does a project take?</h3>
-                            <p>Project timelines vary based on complexity. Simple websites take 1-2 weeks, while complex systems like HR or POS can take 4-8 weeks. I provide detailed timelines during consultation.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> What is your pricing structure?</h3>
-                            <p>I offer flexible pricing based on project scope. I provide detailed quotes after understanding your requirements. Contact me for a free consultation and quote.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> Do you provide ongoing support?</h3>
-                            <p>Yes! I offer maintenance and support packages to ensure your system stays updated, secure, and running smoothly after launch.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> Can you work with existing systems?</h3>
-                            <p>Absolutely! I can integrate with your existing systems, migrate data, or enhance current platforms. I work with various technologies and platforms.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> What technologies do you use?</h3>
-                            <p>I use modern technologies including PHP, Laravel, React, Vue.js, Node.js, Python, MySQL, PostgreSQL, and MongoDB. I choose the best stack for each project.</p>
-                        </div>
-                        <div class="faq-item">
-                            <h3><i class="fas fa-question-circle"></i> How do we communicate during the project?</h3>
-                            <p>I maintain regular communication through WhatsApp, email, and scheduled meetings. You'll receive progress updates and can provide feedback throughout development.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-                </div>
-            </div>
-
-    <!-- Footer -->
-    <footer class="dashboard-footer">
-            <div class="footer-content">
-            <div class="footer-contact">
-                <a href="https://wa.me/255616509415" target="_blank" class="whatsapp-contact">
-                    <i class="fab fa-whatsapp"></i>
-                    <span>+255 616 509 415</span>
-                    <span class="whatsapp-text">Chat with me on WhatsApp</span>
-                </a>
-            </div>
-            <div class="social-links">
-                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2025 Victor. All Rights Reserved.</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image-section">
+                    <div class="about-image-frame">
+                        <img src="img/photo.png" alt="Victor">
+                        <div class="floating-icons">
+                            <div class="floating-icon icon-1"><i class="fas fa-cog"></i></div>
+                            <div class="floating-icon icon-2"><i class="fab fa-php"></i></div>
+                            <div class="floating-icon icon-3"><i class="fas fa-th"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text-section">
+                    <h2 class="section-title">Who Am I</h2>
+                    <p class="about-description">My name is <strong>Victor Moses Mwakyoma</strong>, a Computer Science major at the University of Dar es Salaam (UDSM) in Dar es Salaam, Tanzania. I started with a strong science foundation at Mzumbe Secondary School, where I studied the PCM combination (Physics, Chemistry, Mathematics), and turned that into solving real business problems with software.</p>
+                    <p class="about-description">Over the last few years I've delivered <strong>15+ real-world projects</strong> for offices, schools, shops, and supermarkets. Through customer relations training under <strong>StartHub</strong>, I've learned how to listen to non-technical clients, understand their challenges, and turn them into clear technical solutions.</p>
+                    
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <h3>I can develop anything you want</h3>
+                            <p>From HR systems to e-commerce platforms, school management systems to POS systems, I build custom solutions tailored to your business needs.</p>
+                        </div>
+                        <div class="about-feature">
+                            <h3>I can follow digital trends</h3>
+                            <p>I stay updated with the latest technologies and best practices to deliver modern, efficient, and scalable solutions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="services-content">
+                <div class="services-text">
+                    <h2 class="section-title">What I Provide</h2>
+                    <p class="services-description">I'm created and updated websites and business systems for many different clients. I specialize in building custom solutions that solve real business problems and improve operational efficiency.</p>
+                    <a href="contact.html" class="btn-download">DOWNLOAD CV</a>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Web Design</h3>
+                        <p>Creating beautiful, user-friendly interfaces that enhance user experience and drive engagement.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Web Development</h3>
+                        <p>Building robust, scalable web applications using modern technologies and best practices.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Custom Business Systems</h3>
+                        <p>Developing tailored solutions for HR, e-commerce, school management, POS, and more.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>System Integration</h3>
+                        <p>Integrating systems, APIs, and third-party services to create seamless workflows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">04.</div>
+                    <div class="stat-label">YEARS EXPERIENCE</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24.</div>
+                    <div class="stat-label">PROJECTS DONE</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+.</div>
+                    <div class="stat-label">HAPPY CLIENTS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">95%.</div>
+                    <div class="stat-label">SATISFACTION RATE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section" id="experience">
+        <div class="container">
+            <div class="skills-content">
+                <div class="skills-text">
+                    <h2 class="section-title">Develop Skills</h2>
+                    <p class="skills-description">I have extensive experience with modern web technologies and frameworks. I continuously learn and adapt to new tools and methodologies to deliver the best solutions for my clients.</p>
+                    <div class="skills-icons-grid">
+                        <div class="skill-icon-item">
+                            <i class="fab fa-php"></i>
+                            <span>PHP</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-react"></i>
+                            <span>React</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-vue"></i>
+                            <span>Vue.js</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-node"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-laravel"></i>
+                            <span>Laravel</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fas fa-database"></i>
+                            <span>MySQL</span>
+                        </div>
+                        <div class="skill-icon-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skills-image">
+                    <div class="skills-image-wrapper">
+                        <img src="img/photo.png" alt="Victor">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Projects Section -->
+    <section class="projects-preview-section">
+        <div class="container">
+            <h2 class="section-title">Recent Projects</h2>
+            <div class="projects-preview-grid">
+                <div class="project-preview-card">
+                    <div class="project-preview-image">
+                        <div class="project-device">
+                            <i class="fas fa-laptop"></i>
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="project-preview-content">
+                        <h3>SecureHR System</h3>
+                        <p>Comprehensive HR and payroll management system that centralizes employee data, automates payroll calculations, and provides detailed analytics.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Laravel</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-preview-card">
+                    <div class="project-preview-image">
+                        <div class="project-device">
+                            <i class="fas fa-laptop"></i>
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="project-preview-content">
+                        <h3>E-Commerce Platform</h3>
+                        <p>Full-featured e-commerce system with inventory management, order processing, and customer relationship insights for wholesalers.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="projects-cta">
+                <a href="projects.html" class="btn-primary-hero">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">Appreciation From My Clients</h2>
+            <div class="testimonial-card-main">
+                <div class="testimonial-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Victor delivered an excellent HR system for our company. The system is user-friendly, efficient, and has significantly improved our operations. He understood our needs and delivered a solution that exceeded our expectations. Highly recommended!"</p>
+                <div class="testimonial-clients">
+                    <div class="client-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-avatar active">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-name">Sarah Green</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-image">
+                    <div class="contact-image-wrapper">
+                        <img src="img/photo.png" alt="Victor">
+                    </div>
+                </div>
+                <div class="contact-details">
+                    <h2 class="section-title">Contact Details</h2>
+                    <div class="contact-info-list">
+                        <div class="contact-info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h3>Phone</h3>
+                                <p><a href="tel:+255616509415" class="contact-link">+255 616 509 415</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h3>Email</h3>
+                                <p>www44victor@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h3>Location</h3>
+                                <p>Ubungo, Dar es Salaam, Tanzania</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newsletter-section">
+                        <h3>Newsletter</h3>
+                        <p>Subscribe to get updates on my latest projects and services.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Enter your email" required>
+                            <button type="submit" class="btn-subscribe">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-social">
+                    <a href="https://wa.me/255616509415" target="_blank" class="social-link">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <p class="copyright">&copy; 2025 All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
