@@ -191,6 +191,99 @@ function animateSkillBars() {
     });
 }
 
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+    const mobileNav = document.getElementById('mobileNav');
+    const body = document.body;
+    
+    if (mobileNav) {
+        mobileNav.classList.toggle('active');
+        body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+    }
+}
+
+// Sidebar Toggle for Dashboard Pages
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const body = document.body;
+    
+    if (sidebar) {
+        sidebar.classList.toggle('mobile-open');
+        if (backdrop) {
+            backdrop.classList.toggle('active');
+        }
+        if (window.innerWidth <= 1024) {
+            if (sidebar.classList.contains('mobile-open')) {
+                body.classList.add('sidebar-open');
+            } else {
+                body.classList.remove('sidebar-open');
+            }
+        }
+    }
+}
+
+// Close sidebar when clicking backdrop
+function setupSidebarBackdrop() {
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && sidebar.classList.contains('mobile-open')) {
+                toggleSidebar();
+            }
+        });
+    }
+}
+
+// Close mobile menu when clicking on a link
+function closeMobileMenu() {
+    const mobileNav = document.getElementById('mobileNav');
+    const body = document.body;
+    
+    if (mobileNav && mobileNav.classList.contains('active')) {
+        mobileNav.classList.remove('active');
+        body.style.overflow = '';
+    }
+}
+
+// Intersection Observer for smooth scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            // Optional: Unobserve after animation to improve performance
+            // observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+function setupScrollAnimations() {
+    const animateElements = document.querySelectorAll(
+        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard, .about-image-frame, .hero-image-wrapper, .skills-image-wrapper, .contact-image-wrapper'
+    );
+    
+    animateElements.forEach(element => {
+        element.classList.add('animate-on-load');
+        observer.observe(element);
+        
+        // Check if element is already in viewport on load
+        const rect = element.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+        if (isInViewport) {
+            // Small delay to ensure smooth animation
+            setTimeout(() => {
+                element.classList.add('animate');
+            }, 100);
+        }
+    });
+}
+
 function handleScroll() {
     const scrollPosition = window.scrollY;
     const header = document.querySelector('.main-header');
@@ -203,20 +296,6 @@ function handleScroll() {
             header.classList.remove('scrolled');
         }
     }
-    
-    // Animate elements when they come into view
-    const animateElements = document.querySelectorAll(
-        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
-    );
-    
-    animateElements.forEach(element => {
-        const elementPosition = element.getBoundingClientRect().top;
-        const screenPosition = window.innerHeight / 1.1;
-        
-        if (elementPosition < screenPosition) {
-            element.classList.add('animate');
-        }
-    });
 }
 
 // Event Listeners
@@ -237,12 +316,36 @@ document.addEventListener('DOMContentLoaded', () => {
         animateSkillBars();
     }
     
-    // Add animation class to elements that should animate on page load
-    document.querySelectorAll(
-        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard'
-    ).forEach(element => {
-        element.classList.add('animate-on-load');
+    // Setup scroll animations with Intersection Observer
+    setupScrollAnimations();
+    
+    // Mobile menu toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileNavClose = document.querySelector('.mobile-nav-close');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav .nav-link');
+    
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+    
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', toggleMobileMenu);
+    }
+    
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu();
+        });
     });
+    
+    // Sidebar toggle for dashboard pages
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', toggleSidebar);
+    }
+    
+    // Setup sidebar backdrop
+    setupSidebarBackdrop();
 });
 
 // Theme switch event
@@ -304,8 +407,18 @@ if (contactForm) {
     contactForm.addEventListener('submit', handleContactFormSubmit);
 }
 
-// Scroll events
-window.addEventListener('scroll', handleScroll);
+// Scroll events with throttling for better performance
+let ticking = false;
+function onScroll() {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+        });
+        ticking = true;
+    }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
 
 // Add CSS animation class
 document.body.classList.add('css-animations-enabled');
