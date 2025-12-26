@@ -20,6 +20,8 @@
     z-index: 10000;
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     pointer-events: none;
+    /* Ensure it's always visible and not cut off */
+    will-change: transform;
 }
 
 /* Button stays in corner - no centering */
@@ -252,17 +254,19 @@
 /* Mobile Responsive */
 @media (max-width: 768px) {
     #ai-voice-assistant {
-        bottom: 20px;
+        bottom: 80px; /* Higher up to avoid browser chrome */
         right: 20px;
+        /* Support for phones with safe areas (notches, home indicators) */
+        bottom: max(80px, env(safe-area-inset-bottom, 80px));
+        padding-bottom: env(safe-area-inset-bottom, 0);
     }
     
     #ai-voice-btn {
         width: 60px;
         height: 60px;
         font-size: 24px;
+        box-shadow: 0 6px 20px var(--ai-shadow-strong); /* More visible shadow on mobile */
     }
-    
-    /* Button stays same size on mobile */
     
     #ai-voice-btn::before {
         font-size: 12px;
@@ -273,20 +277,24 @@
 
 @media (max-width: 480px) {
     #ai-voice-assistant {
-        bottom: 15px;
+        bottom: 70px; /* Higher position for small phones */
         right: 15px;
+        /* Support for phones with safe areas */
+        bottom: max(70px, calc(env(safe-area-inset-bottom, 0px) + 70px));
+        padding-bottom: env(safe-area-inset-bottom, 0);
     }
     
     #ai-voice-btn {
-        width: 55px;
-        height: 55px;
-        font-size: 22px;
+        width: 58px;
+        height: 58px;
+        font-size: 24px;
+        box-shadow: 0 6px 20px var(--ai-shadow-strong);
     }
     
-    #ai-voice-assistant.centered #ai-voice-btn {
-        width: 75px;
-        height: 75px;
-        font-size: 30px;
+    /* Ensure button is always visible */
+    #ai-voice-btn {
+        position: relative;
+        z-index: 10001;
     }
 }
 
@@ -467,11 +475,14 @@
 /* Mobile Chat */
 @media (max-width: 768px) {
     .ai-chat-window {
-        bottom: 90px;
+        bottom: 150px; /* Positioned above the button */
         right: 20px;
         left: 20px;
         width: auto;
         height: 60vh;
+        max-height: calc(100vh - 180px); /* Account for button and safe areas */
+        /* Support for phones with safe areas */
+        bottom: max(150px, calc(env(safe-area-inset-bottom, 0px) + 150px));
     }
 }
 
