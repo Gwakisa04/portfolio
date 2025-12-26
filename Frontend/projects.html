@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Featured Projects | Victor - Full-Stack Developer</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-voice-assistant.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -199,39 +200,15 @@
         </div>
     </footer>
 
-    <!-- AI Assistant -->
-    <div class="ai-assistant" id="ai-assistant">
-        <button class="ai-assistant-button" id="ai-assistant-btn" onclick="toggleAIAssistant()" aria-label="Open AI Assistant">
-            <i class="fas fa-robot"></i>
+    <!-- AI Voice Assistant - Voice Only -->
+    <div id="ai-voice-assistant">
+        <div class="ai-wave-container"></div>
+        <button id="ai-voice-btn" aria-label="AI Voice Assistant - Click to activate">
+            <i class="fas fa-microphone"></i>
         </button>
-        
-        <div class="ai-chat-window" id="ai-chat-window">
-            <div class="ai-chat-header">
-                <h3><i class="fas fa-robot"></i> AI Assistant</h3>
-                <button class="ai-close-btn" onclick="toggleAIAssistant()" aria-label="Close AI Assistant">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="ai-chat-messages" id="ai-chat-messages"></div>
-            <div class="ai-chat-input-area">
-                <input 
-                    type="text" 
-                    id="ai-message-input" 
-                    class="ai-message-input" 
-                    placeholder="Ask me anything about Victor..."
-                    onkeypress="handleAIInputKeyPress(event)"
-                >
-                <button class="ai-voice-btn" id="ai-voice-btn" onclick="toggleVoiceInput()" aria-label="Voice Input">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <button class="ai-send-btn" onclick="sendAIMessage()" aria-label="Send Message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
     </div>
 
     <script src="js/script.js"></script>
-    <script src="js/ai-assistant.js"></script>
+    <script src="js/ai-assistant-voice.js"></script>
 </body>
 </html>
