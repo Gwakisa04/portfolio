@@ -22,15 +22,9 @@
     pointer-events: none;
 }
 
-/* When active and centered */
-#ai-voice-assistant.centered {
-    bottom: 50%;
-    right: 50%;
-    transform: translate(50%, 50%);
-    pointer-events: all;
-}
+/* Button stays in corner - no centering */
 
-/* AI Voice Button */
+/* AI Robot Button */
 #ai-voice-btn {
     width: 70px;
     height: 70px;
@@ -38,7 +32,7 @@
     border: none;
     background: linear-gradient(135deg, var(--ai-primary), var(--ai-primary-light));
     color: white;
-    font-size: 28px;
+    font-size: 32px;
     cursor: pointer;
     box-shadow: 0 8px 25px var(--ai-shadow);
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -50,6 +44,22 @@
     outline: none;
 }
 
+#ai-voice-btn.speaking {
+    background: linear-gradient(135deg, var(--ai-success), #34d399);
+    animation: speakingPulse 2s ease-in-out infinite;
+}
+
+@keyframes speakingPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px var(--ai-shadow);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px var(--ai-shadow-strong);
+    }
+}
+
 #ai-voice-btn:hover {
     transform: scale(1.1);
     box-shadow: 0 12px 35px var(--ai-shadow-strong);
@@ -59,13 +69,7 @@
     transform: scale(0.95);
 }
 
-/* Active State - Larger when centered */
-#ai-voice-assistant.centered #ai-voice-btn {
-    width: 100px;
-    height: 100px;
-    font-size: 40px;
-    box-shadow: 0 15px 50px var(--ai-shadow-strong);
-}
+/* Button stays same size */
 
 /* Listening State - Red/Pink */
 #ai-voice-btn.listening {
@@ -258,11 +262,7 @@
         font-size: 24px;
     }
     
-    #ai-voice-assistant.centered #ai-voice-btn {
-        width: 85px;
-        height: 85px;
-        font-size: 35px;
-    }
+    /* Button stays same size on mobile */
     
     #ai-voice-btn::before {
         font-size: 12px;

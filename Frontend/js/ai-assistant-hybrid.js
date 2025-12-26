@@ -1,5 +1,5 @@
-// ===== AI ASSISTANT - Hybrid (Voice + Chat) =====
-// Combines voice-only button with minimal chat interface
+// ===== AI ASSISTANT - Robot Icon with Chat + Voice =====
+// Both chat and voice work together
 
 const AI_API_URL = 'https://ai-assistant-z3fp.onrender.com/api/chat';
 const DEFAULT_PROJECT = 'portfolio';
@@ -7,7 +7,6 @@ const DEFAULT_PROJECT = 'portfolio';
 // State Management
 let isListening = false;
 let isSpeaking = false;
-let isActive = false;
 let chatOpen = false;
 let recognition = null;
 let currentUtterance = null;
@@ -37,17 +36,18 @@ function initSpeechRecognition() {
 // Handle speech recognition result
 function handleSpeechResult(event) {
     const transcript = event.results[0][0].transcript;
-    const detectedLang = detectLanguage(transcript);
+    console.log('Speech recognized:', transcript);
     
     stopListening();
-    showProcessingState();
     
-    // Add to chat if open
-    if (chatOpen) {
-        addChatMessage('user', transcript);
-    }
+    // Add to chat
+    addChatMessage('user', transcript);
     
-    // Send to AI backend
+    // Show processing
+    showProcessingInChat();
+    
+    // Send to AI
+    const detectedLang = detectLanguage(transcript);
     sendToAI(transcript, detectedLang);
 }
 
@@ -55,18 +55,19 @@ function handleSpeechResult(event) {
 function handleSpeechError(event) {
     console.error('Speech recognition error:', event.error);
     stopListening();
-    showErrorState('Voice recognition failed. Try typing instead.');
-    setTimeout(() => resetToIdle(), 2000);
+    updateVoiceButton();
+    addChatMessage('assistant', 'Voice recognition error. Try typing instead.');
 }
 
 // Handle speech recognition end
 function handleSpeechEnd() {
     if (isListening) {
         stopListening();
+        updateVoiceButton();
     }
 }
 
-// Detect language from transcript
+// Detect language
 function detectLanguage(text) {
     const lowerText = text.toLowerCase();
     let swahiliCount = 0;
@@ -85,6 +86,8 @@ function detectLanguage(text) {
 
 // Send message to AI backend
 async function sendToAI(message, language) {
+    console.log('Sending to AI:', message);
+    
     try {
         const response = await fetch(AI_API_URL, {
             method: 'POST',
@@ -97,102 +100,91 @@ async function sendToAI(message, language) {
             })
         });
         
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
+        console.log('AI Response:', data);
         
         if (!data || !data.reply) {
             throw new Error('Invalid response from server');
         }
         
         const aiResponse = data.reply;
+        console.log('AI Reply:', aiResponse);
         
-        // Check for backend errors
-        if (aiResponse.includes("can't answer") || aiResponse.includes("API key") || aiResponse.includes("Sorry")) {
+        // Remove processing message
+        removeProcessingFromChat();
+        
+        // Check for errors
+        if (aiResponse.includes("can't answer") || aiResponse.includes("API key") || aiResponse.includes("Sorry, I can't")) {
             console.error('Backend error:', aiResponse);
-            const errorMsg = 'Backend configuration issue. Make sure OPENAI_API_KEY is set in Render.';
-            showErrorState(errorMsg);
-            if (chatOpen) {
-                addChatMessage('assistant', '⚠️ ' + errorMsg);
-            }
-            setTimeout(() => resetToIdle(), 3000);
+            addChatMessage('assistant', '⚠️ Backend configuration issue. Make sure OPENAI_API_KEY is set in Render dashboard.');
             return;
         }
         
-        // Add to chat if open
-        if (chatOpen) {
-            addChatMessage('assistant', aiResponse);
-        }
+        // Add to chat
+        addChatMessage('assistant', aiResponse);
         
         // Speak the response
         speakResponse(aiResponse, language);
         
     } catch (error) {
         console.error('AI API Error:', error);
-        const errorMsg = `Error: ${error.message}. Check console for details.`;
-        showErrorState(errorMsg);
-        if (chatOpen) {
-            addChatMessage('assistant', '❌ ' + errorMsg);
-        }
-        setTimeout(() => resetToIdle(), 3000);
+        removeProcessingFromChat();
+        addChatMessage('assistant', '❌ Error: ' + error.message + '. Check console for details.');
     }
 }
 
 // Speak AI response using TTS
 function speakResponse(text, language) {
-    if ('speechSynthesis' in window) {
-        speechSynthesis.cancel();
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = language === 'sw' ? 'sw-TZ' : 'en-US';
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
-        utterance.volume = 0.8;
-        
-        currentUtterance = utterance;
-        isSpeaking = true;
-        
-        showSpeakingState();
-        
-        utterance.onstart = () => {
-            startSpeakingAnimation();
-        };
-        
-        utterance.onend = () => {
-            isSpeaking = false;
-            currentUtterance = null;
-            stopSpeakingAnimation();
-            setTimeout(() => resetToIdle(), 500);
-        };
-        
-        utterance.onerror = (error) => {
-            console.error('Speech synthesis error:', error);
-            isSpeaking = false;
-            stopSpeakingAnimation();
-            resetToIdle();
-        };
-        
-        speechSynthesis.speak(utterance);
-    }
-}
-
-// Toggle AI Assistant (voice button)
-function toggleAIAssistant() {
-    if (!recognition) {
-        showErrorState('Voice recognition not supported.');
+    if (!('speechSynthesis' in window)) {
+        console.warn('Speech synthesis not supported');
         return;
     }
     
-    if (isActive) {
-        deactivateAssistant();
-    } else {
-        activateAssistant();
-    }
+    // Cancel any ongoing speech
+    speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language === 'sw' ? 'sw-TZ' : 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 0.8;
+    
+    currentUtterance = utterance;
+    isSpeaking = true;
+    
+    console.log('Speaking:', text);
+    
+    utterance.onstart = () => {
+        console.log('Speech started');
+        const button = document.getElementById('ai-voice-btn');
+        if (button) button.classList.add('speaking');
+    };
+    
+    utterance.onend = () => {
+        console.log('Speech ended');
+        isSpeaking = false;
+        currentUtterance = null;
+        const button = document.getElementById('ai-voice-btn');
+        if (button) button.classList.remove('speaking');
+    };
+    
+    utterance.onerror = (error) => {
+        console.error('Speech synthesis error:', error);
+        isSpeaking = false;
+        const button = document.getElementById('ai-voice-btn');
+        if (button) button.classList.remove('speaking');
+    };
+    
+    speechSynthesis.speak(utterance);
 }
 
-// Toggle Chat Window (global function for onclick)
+// Toggle Chat Window
 window.toggleChat = function() {
     const chatWindow = document.getElementById('ai-chat-window');
     if (!chatWindow) return;
@@ -207,137 +199,70 @@ window.toggleChat = function() {
     }
 };
 
-// Make sendChatMessage global
-window.sendChatMessage = sendChatMessage;
-
-// Activate assistant
-function activateAssistant() {
-    isActive = true;
-    const button = document.getElementById('ai-voice-btn');
-    const container = document.getElementById('ai-voice-assistant');
-    
-    if (!button || !container) return;
-    
-    container.classList.add('active', 'centered');
-    button.classList.add('active');
-    startListening();
-}
-
-// Deactivate assistant
-function deactivateAssistant() {
-    isActive = false;
-    const button = document.getElementById('ai-voice-btn');
-    const container = document.getElementById('ai-voice-assistant');
-    
-    if (!button || !container) return;
-    
-    if (isListening && recognition) {
-        recognition.stop();
-        isListening = false;
+// Toggle Robot Button (opens chat and starts voice)
+window.toggleAIAssistant = function() {
+    // Open chat if not open
+    if (!chatOpen) {
+        toggleChat();
     }
     
-    if (isSpeaking && currentUtterance) {
-        speechSynthesis.cancel();
-        isSpeaking = false;
+    // Start voice recognition if available
+    if (recognition && !isListening && !isSpeaking) {
+        startVoiceInput();
     }
-    
-    container.classList.remove('active', 'centered');
-    button.classList.remove('active', 'listening', 'speaking', 'processing', 'error');
-    stopAllAnimations();
-}
+};
 
-// Start listening
-function startListening() {
+// Start voice input
+function startVoiceInput() {
     if (!recognition || isListening) return;
     
     try {
         isListening = true;
-        const button = document.getElementById('ai-voice-btn');
-        if (button) {
-            button.classList.add('listening');
-            button.classList.remove('speaking', 'processing', 'error');
-        }
+        updateVoiceButton();
         recognition.start();
-        startListeningAnimation();
+        console.log('Voice recognition started');
     } catch (error) {
         console.error('Error starting recognition:', error);
         isListening = false;
-        showErrorState('Could not start listening.');
+        updateVoiceButton();
+        addChatMessage('assistant', 'Could not start voice recognition. Try typing instead.');
     }
 }
 
 // Stop listening
 function stopListening() {
     isListening = false;
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.classList.remove('listening');
-    }
-    stopListeningAnimation();
+    updateVoiceButton();
 }
 
-// Show processing state
-function showProcessingState() {
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.classList.add('processing');
-        button.classList.remove('listening', 'speaking', 'error');
-    }
-}
-
-// Show speaking state
-function showSpeakingState() {
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.classList.add('speaking');
-        button.classList.remove('listening', 'processing', 'error');
+// Update voice button state
+function updateVoiceButton() {
+    const voiceBtn = document.getElementById('ai-chat-voice-btn');
+    if (voiceBtn) {
+        if (isListening) {
+            voiceBtn.classList.add('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        } else {
+            voiceBtn.classList.remove('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        }
     }
 }
 
-// Show error state
-function showErrorState(message) {
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.classList.add('error');
-        button.classList.remove('listening', 'speaking', 'processing');
+// Toggle voice input from chat button
+window.toggleVoiceInput = function() {
+    if (!recognition) {
+        alert('Voice input not supported in your browser.');
+        return;
     }
-    console.error(message);
-}
-
-// Reset to idle
-function resetToIdle() {
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.classList.remove('listening', 'speaking', 'processing', 'error');
+    
+    if (isListening) {
+        recognition.stop();
+        stopListening();
+    } else {
+        startVoiceInput();
     }
-    stopAllAnimations();
-}
-
-// Animations
-function startListeningAnimation() {
-    const container = document.getElementById('ai-voice-assistant');
-    if (container) container.classList.add('listening-animation');
-}
-
-function stopListeningAnimation() {
-    const container = document.getElementById('ai-voice-assistant');
-    if (container) container.classList.remove('listening-animation');
-}
-
-function startSpeakingAnimation() {
-    const container = document.getElementById('ai-voice-assistant');
-    if (container) container.classList.add('speaking-animation');
-}
-
-function stopSpeakingAnimation() {
-    const container = document.getElementById('ai-voice-assistant');
-    if (container) container.classList.remove('speaking-animation');
-}
-
-function stopAllAnimations() {
-    stopListeningAnimation();
-    stopSpeakingAnimation();
-}
+};
 
 // Chat Functions
 function addChatMessage(role, message) {
@@ -361,8 +286,33 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+function showProcessingInChat() {
+    const chatMessages = document.getElementById('ai-chat-messages');
+    if (!chatMessages) return;
+    
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'ai-message ai-message-assistant';
+    loadingDiv.id = 'processing-msg';
+    loadingDiv.innerHTML = `
+        <div class="ai-message-content">
+            <div class="ai-typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(loadingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeProcessingFromChat() {
+    const processingMsg = document.getElementById('processing-msg');
+    if (processingMsg) {
+        processingMsg.remove();
+    }
+}
+
 // Send chat message
-async function sendChatMessage() {
+window.sendChatMessage = async function() {
     const input = document.getElementById('ai-message-input');
     if (!input) return;
     
@@ -371,35 +321,19 @@ async function sendChatMessage() {
     
     input.value = '';
     addChatMessage('user', message);
-    
-    // Show loading
-    const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'ai-message ai-message-assistant';
-    loadingDiv.id = 'loading-msg';
-    loadingDiv.innerHTML = `
-        <div class="ai-message-content">
-            <div class="ai-typing-indicator">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    `;
-    document.getElementById('ai-chat-messages').appendChild(loadingDiv);
-    document.getElementById('ai-chat-messages').scrollTop = document.getElementById('ai-chat-messages').scrollHeight;
+    showProcessingInChat();
     
     const detectedLang = detectLanguage(message);
     
     try {
         await sendToAI(message, detectedLang);
-        const loadingMsg = document.getElementById('loading-msg');
-        if (loadingMsg) loadingMsg.remove();
     } catch (error) {
-        const loadingMsg = document.getElementById('loading-msg');
-        if (loadingMsg) loadingMsg.remove();
+        removeProcessingFromChat();
         addChatMessage('assistant', '❌ Error: ' + error.message);
     }
-}
+};
 
-// Handle Enter key (global for onkeypress)
+// Handle Enter key
 window.handleChatInputKeyPress = function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
@@ -407,55 +341,30 @@ window.handleChatInputKeyPress = function(event) {
     }
 };
 
-// Toggle voice input from chat (global for onclick)
-window.toggleVoiceInput = function() {
-    if (!recognition) {
-        alert('Voice input not supported in your browser.');
-        return;
-    }
-    
-    if (isListening) {
-        recognition.stop();
-        isListening = false;
-        updateVoiceButton();
-    } else {
-        recognition.start();
-        isListening = true;
-        updateVoiceButton();
-    }
-};
-
-function updateVoiceButton() {
-    const voiceBtn = document.getElementById('ai-chat-voice-btn');
-    if (voiceBtn) {
-        if (isListening) {
-            voiceBtn.classList.add('listening');
-            voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
-        } else {
-            voiceBtn.classList.remove('listening');
-            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-        }
-    }
-}
-
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing AI Assistant...');
+    
+    // Initialize speech recognition
     const speechSupported = initSpeechRecognition();
+    console.log('Speech recognition supported:', speechSupported);
     
     if (!speechSupported) {
         const button = document.getElementById('ai-voice-btn');
         if (button) {
-            button.style.opacity = '0.5';
-            button.style.cursor = 'not-allowed';
+            button.style.opacity = '0.7';
             button.title = 'Voice recognition not supported';
         }
     }
     
-    const button = document.getElementById('ai-voice-btn');
-    if (button) {
-        button.addEventListener('click', toggleAIAssistant);
+    // Robot button click handler
+    const robotBtn = document.getElementById('ai-voice-btn');
+    if (robotBtn) {
+        robotBtn.addEventListener('click', toggleAIAssistant);
+        console.log('Robot button handler attached');
     }
     
+    // Chat toggle button
     const chatToggle = document.getElementById('ai-chat-toggle');
     if (chatToggle) {
         chatToggle.addEventListener('click', toggleChat);
@@ -463,20 +372,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Welcome message
     setTimeout(() => {
-        if (document.getElementById('ai-chat-messages')) {
-            addChatMessage('assistant', 'Haya! Niaje? I\'m Victor\'s AI assistant. Ask me anything! 😊');
+        const chatMessages = document.getElementById('ai-chat-messages');
+        if (chatMessages) {
+            addChatMessage('assistant', 'Haya! Niaje? I\'m Victor\'s AI assistant. Ask me anything! 😊\n\nClick the robot button to use voice, or type your question.');
         }
     }, 500);
     
-    // Close on outside click
-    document.addEventListener('click', function(event) {
-        const container = document.getElementById('ai-voice-assistant');
-        const chatWindow = document.getElementById('ai-chat-window');
-        
-        if (isActive && container && !container.contains(event.target) && 
-            (!chatWindow || !chatWindow.contains(event.target))) {
-            deactivateAssistant();
-        }
-    });
+    console.log('AI Assistant initialized');
 });
-
