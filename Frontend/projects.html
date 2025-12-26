@@ -200,15 +200,46 @@
         </div>
     </footer>
 
-    <!-- AI Voice Assistant - Voice Only -->
+    <!-- AI Assistant - Hybrid (Voice + Chat) -->
     <div id="ai-voice-assistant">
         <div class="ai-wave-container"></div>
         <button id="ai-voice-btn" aria-label="AI Voice Assistant - Click to activate">
             <i class="fas fa-microphone"></i>
         </button>
     </div>
+    
+    <!-- Chat Window -->
+    <div class="ai-chat-window" id="ai-chat-window">
+        <div class="ai-chat-header">
+            <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+            <div class="ai-chat-actions">
+                <button class="ai-chat-toggle" id="ai-chat-toggle" aria-label="Toggle Chat">
+                    <i class="fas fa-comments"></i>
+                </button>
+                <button class="ai-close-btn" onclick="toggleChat()" aria-label="Close Chat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="ai-chat-messages" id="ai-chat-messages"></div>
+        <div class="ai-chat-input-area">
+            <input 
+                type="text" 
+                id="ai-message-input" 
+                class="ai-message-input" 
+                placeholder="Ask me anything about Victor..."
+                onkeypress="handleChatInputKeyPress(event)"
+            >
+            <button class="ai-voice-btn" id="ai-chat-voice-btn" onclick="toggleVoiceInput()" aria-label="Voice Input">
+                <i class="fas fa-microphone"></i>
+            </button>
+            <button class="ai-send-btn" onclick="sendChatMessage()" aria-label="Send Message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
-    <script src="js/ai-assistant-voice.js"></script>
+    <script src="js/ai-assistant-hybrid.js"></script>
 </body>
 </html>

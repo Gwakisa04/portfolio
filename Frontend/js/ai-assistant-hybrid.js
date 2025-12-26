@@ -1,5 +1,5 @@
-// ===== AI VOICE ASSISTANT - Voice-Only Implementation =====
-// Senior Frontend Engineer & UI/UX Expert Design
+// ===== AI ASSISTANT - Hybrid (Voice + Chat) =====
+// Combines voice-only button with minimal chat interface
 
 const AI_API_URL = 'https://ai-assistant-z3fp.onrender.com/api/chat';
 const DEFAULT_PROJECT = 'portfolio';
@@ -8,11 +8,11 @@ const DEFAULT_PROJECT = 'portfolio';
 let isListening = false;
 let isSpeaking = false;
 let isActive = false;
+let chatOpen = false;
 let recognition = null;
 let currentUtterance = null;
-let animationFrame = null;
 
-// Language Detection (simple keyword-based)
+// Language Detection
 const SWAHILI_KEYWORDS = ['niaje', 'mambo', 'sawa', 'asante', 'karibu', 'haya', 'eh', 'pole', 'hapana', 'ndiyo'];
 const ENGLISH_KEYWORDS = ['hello', 'hi', 'hey', 'what', 'who', 'tell', 'about', 'how', 'when', 'where'];
 
@@ -23,7 +23,7 @@ function initSpeechRecognition() {
         recognition = new SpeechRecognition();
         recognition.continuous = false;
         recognition.interimResults = false;
-        recognition.lang = 'en-US'; // Start with English, will detect language
+        recognition.lang = 'en-US';
         
         recognition.onresult = handleSpeechResult;
         recognition.onerror = handleSpeechError;
@@ -42,6 +42,11 @@ function handleSpeechResult(event) {
     stopListening();
     showProcessingState();
     
+    // Add to chat if open
+    if (chatOpen) {
+        addChatMessage('user', transcript);
+    }
+    
     // Send to AI backend
     sendToAI(transcript, detectedLang);
 }
@@ -50,7 +55,7 @@ function handleSpeechResult(event) {
 function handleSpeechError(event) {
     console.error('Speech recognition error:', event.error);
     stopListening();
-    showErrorState('Voice recognition failed. Please try again.');
+    showErrorState('Voice recognition failed. Try typing instead.');
     setTimeout(() => resetToIdle(), 2000);
 }
 
@@ -75,7 +80,6 @@ function detectLanguage(text) {
         if (lowerText.includes(keyword)) englishCount++;
     });
     
-    // If Swahili keywords found, return Swahili, else English
     return swahiliCount > englishCount ? 'sw' : 'en';
 }
 
@@ -99,28 +103,39 @@ async function sendToAI(message, language) {
         
         const data = await response.json();
         
-        // Check if we got a valid response
         if (!data || !data.reply) {
             throw new Error('Invalid response from server');
         }
         
         const aiResponse = data.reply;
         
-        // If response is the error message, log it for debugging
-        if (aiResponse.includes("can't answer") || aiResponse.includes("API key")) {
-            console.error('Backend error detected:', aiResponse);
-            showErrorState('Backend configuration issue. Check console for details.');
+        // Check for backend errors
+        if (aiResponse.includes("can't answer") || aiResponse.includes("API key") || aiResponse.includes("Sorry")) {
+            console.error('Backend error:', aiResponse);
+            const errorMsg = 'Backend configuration issue. Make sure OPENAI_API_KEY is set in Render.';
+            showErrorState(errorMsg);
+            if (chatOpen) {
+                addChatMessage('assistant', '⚠️ ' + errorMsg);
+            }
             setTimeout(() => resetToIdle(), 3000);
             return;
         }
         
-        // Speak the response in detected language
+        // Add to chat if open
+        if (chatOpen) {
+            addChatMessage('assistant', aiResponse);
+        }
+        
+        // Speak the response
         speakResponse(aiResponse, language);
         
     } catch (error) {
         console.error('AI API Error:', error);
-        const errorMsg = error.message || 'Connection error';
-        showErrorState(`Error: ${errorMsg}. Check console.`);
+        const errorMsg = `Error: ${error.message}. Check console for details.`;
+        showErrorState(errorMsg);
+        if (chatOpen) {
+            addChatMessage('assistant', '❌ ' + errorMsg);
+        }
         setTimeout(() => resetToIdle(), 3000);
     }
 }
@@ -128,7 +143,6 @@ async function sendToAI(message, language) {
 // Speak AI response using TTS
 function speakResponse(text, language) {
     if ('speechSynthesis' in window) {
-        // Cancel any ongoing speech
         speechSynthesis.cancel();
         
         const utterance = new SpeechSynthesisUtterance(text);
@@ -140,7 +154,6 @@ function speakResponse(text, language) {
         currentUtterance = utterance;
         isSpeaking = true;
         
-        // Show speaking state
         showSpeakingState();
         
         utterance.onstart = () => {
@@ -162,30 +175,42 @@ function speakResponse(text, language) {
         };
         
         speechSynthesis.speak(utterance);
-    } else {
-        // Fallback if TTS not available
-        showErrorState('Voice output not supported.');
-        setTimeout(() => resetToIdle(), 2000);
     }
 }
 
-// Toggle AI Assistant
+// Toggle AI Assistant (voice button)
 function toggleAIAssistant() {
     if (!recognition) {
-        showErrorState('Voice recognition not supported in your browser.');
+        showErrorState('Voice recognition not supported.');
         return;
     }
     
     if (isActive) {
-        // Deactivate
         deactivateAssistant();
     } else {
-        // Activate
         activateAssistant();
     }
 }
 
-// Activate assistant - move to center, start listening
+// Toggle Chat Window (global function for onclick)
+window.toggleChat = function() {
+    const chatWindow = document.getElementById('ai-chat-window');
+    if (!chatWindow) return;
+    
+    chatOpen = !chatOpen;
+    
+    if (chatOpen) {
+        chatWindow.classList.add('active');
+        document.getElementById('ai-message-input')?.focus();
+    } else {
+        chatWindow.classList.remove('active');
+    }
+};
+
+// Make sendChatMessage global
+window.sendChatMessage = sendChatMessage;
+
+// Activate assistant
 function activateAssistant() {
     isActive = true;
     const button = document.getElementById('ai-voice-btn');
@@ -193,15 +218,12 @@ function activateAssistant() {
     
     if (!button || !container) return;
     
-    // Move to center
     container.classList.add('active', 'centered');
     button.classList.add('active');
-    
-    // Start listening
     startListening();
 }
 
-// Deactivate assistant - return to corner
+// Deactivate assistant
 function deactivateAssistant() {
     isActive = false;
     const button = document.getElementById('ai-voice-btn');
@@ -209,7 +231,6 @@ function deactivateAssistant() {
     
     if (!button || !container) return;
     
-    // Stop any ongoing processes
     if (isListening && recognition) {
         recognition.stop();
         isListening = false;
@@ -220,11 +241,8 @@ function deactivateAssistant() {
         isSpeaking = false;
     }
     
-    // Return to corner
     container.classList.remove('active', 'centered');
     button.classList.remove('active', 'listening', 'speaking', 'processing', 'error');
-    
-    // Stop animations
     stopAllAnimations();
 }
 
@@ -239,10 +257,8 @@ function startListening() {
             button.classList.add('listening');
             button.classList.remove('speaking', 'processing', 'error');
         }
-        
         recognition.start();
         startListeningAnimation();
-        
     } catch (error) {
         console.error('Error starting recognition:', error);
         isListening = false;
@@ -285,11 +301,10 @@ function showErrorState(message) {
         button.classList.add('error');
         button.classList.remove('listening', 'speaking', 'processing');
     }
-    // You could show a toast notification here
     console.error(message);
 }
 
-// Reset to idle state
+// Reset to idle
 function resetToIdle() {
     const button = document.getElementById('ai-voice-btn');
     if (button) {
@@ -298,47 +313,133 @@ function resetToIdle() {
     stopAllAnimations();
 }
 
-// Start listening animation (pulsating waves)
+// Animations
 function startListeningAnimation() {
     const container = document.getElementById('ai-voice-assistant');
-    if (!container) return;
-    
-    container.classList.add('listening-animation');
+    if (container) container.classList.add('listening-animation');
 }
 
-// Stop listening animation
 function stopListeningAnimation() {
     const container = document.getElementById('ai-voice-assistant');
-    if (container) {
-        container.classList.remove('listening-animation');
-    }
+    if (container) container.classList.remove('listening-animation');
 }
 
-// Start speaking animation (floating waves)
 function startSpeakingAnimation() {
     const container = document.getElementById('ai-voice-assistant');
-    if (!container) return;
-    
-    container.classList.add('speaking-animation');
+    if (container) container.classList.add('speaking-animation');
 }
 
-// Stop speaking animation
 function stopSpeakingAnimation() {
     const container = document.getElementById('ai-voice-assistant');
-    if (container) {
-        container.classList.remove('speaking-animation');
-    }
+    if (container) container.classList.remove('speaking-animation');
 }
 
-// Stop all animations
 function stopAllAnimations() {
     stopListeningAnimation();
     stopSpeakingAnimation();
 }
 
-// Initialize on DOM ready
+// Chat Functions
+function addChatMessage(role, message) {
+    const chatMessages = document.getElementById('ai-chat-messages');
+    if (!chatMessages) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ai-message-${role}`;
+    messageDiv.innerHTML = `
+        <div class="ai-message-content">${escapeHtml(message)}</div>
+        <div class="ai-message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Send chat message
+async function sendChatMessage() {
+    const input = document.getElementById('ai-message-input');
+    if (!input) return;
+    
+    const message = input.value.trim();
+    if (!message) return;
+    
+    input.value = '';
+    addChatMessage('user', message);
+    
+    // Show loading
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'ai-message ai-message-assistant';
+    loadingDiv.id = 'loading-msg';
+    loadingDiv.innerHTML = `
+        <div class="ai-message-content">
+            <div class="ai-typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    `;
+    document.getElementById('ai-chat-messages').appendChild(loadingDiv);
+    document.getElementById('ai-chat-messages').scrollTop = document.getElementById('ai-chat-messages').scrollHeight;
+    
+    const detectedLang = detectLanguage(message);
+    
+    try {
+        await sendToAI(message, detectedLang);
+        const loadingMsg = document.getElementById('loading-msg');
+        if (loadingMsg) loadingMsg.remove();
+    } catch (error) {
+        const loadingMsg = document.getElementById('loading-msg');
+        if (loadingMsg) loadingMsg.remove();
+        addChatMessage('assistant', '❌ Error: ' + error.message);
+    }
+}
+
+// Handle Enter key (global for onkeypress)
+window.handleChatInputKeyPress = function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendChatMessage();
+    }
+};
+
+// Toggle voice input from chat (global for onclick)
+window.toggleVoiceInput = function() {
+    if (!recognition) {
+        alert('Voice input not supported in your browser.');
+        return;
+    }
+    
+    if (isListening) {
+        recognition.stop();
+        isListening = false;
+        updateVoiceButton();
+    } else {
+        recognition.start();
+        isListening = true;
+        updateVoiceButton();
+    }
+};
+
+function updateVoiceButton() {
+    const voiceBtn = document.getElementById('ai-chat-voice-btn');
+    if (voiceBtn) {
+        if (isListening) {
+            voiceBtn.classList.add('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+        } else {
+            voiceBtn.classList.remove('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        }
+    }
+}
+
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize speech recognition
     const speechSupported = initSpeechRecognition();
     
     if (!speechSupported) {
@@ -346,20 +447,34 @@ document.addEventListener('DOMContentLoaded', function() {
         if (button) {
             button.style.opacity = '0.5';
             button.style.cursor = 'not-allowed';
-            button.title = 'Voice recognition not supported in your browser';
+            button.title = 'Voice recognition not supported';
         }
     }
     
-    // Add click handler
     const button = document.getElementById('ai-voice-btn');
     if (button) {
         button.addEventListener('click', toggleAIAssistant);
     }
     
-    // Close on outside click when active
+    const chatToggle = document.getElementById('ai-chat-toggle');
+    if (chatToggle) {
+        chatToggle.addEventListener('click', toggleChat);
+    }
+    
+    // Welcome message
+    setTimeout(() => {
+        if (document.getElementById('ai-chat-messages')) {
+            addChatMessage('assistant', 'Haya! Niaje? I\'m Victor\'s AI assistant. Ask me anything! 😊');
+        }
+    }, 500);
+    
+    // Close on outside click
     document.addEventListener('click', function(event) {
         const container = document.getElementById('ai-voice-assistant');
-        if (isActive && container && !container.contains(event.target)) {
+        const chatWindow = document.getElementById('ai-chat-window');
+        
+        if (isActive && container && !container.contains(event.target) && 
+            (!chatWindow || !chatWindow.contains(event.target))) {
             deactivateAssistant();
         }
     });
