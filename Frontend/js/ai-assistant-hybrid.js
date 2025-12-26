@@ -120,9 +120,9 @@ async function sendToAI(message, language) {
         removeProcessingFromChat();
         
         // Check for errors
-        if (aiResponse.includes("can't answer") || aiResponse.includes("API key") || aiResponse.includes("Sorry, I can't")) {
+        if (aiResponse.includes("can't answer") || aiResponse.includes("API key") || aiResponse.includes("Sorry, I can't") || aiResponse.includes("Backend configuration")) {
             console.error('Backend error:', aiResponse);
-            addChatMessage('assistant', '⚠️ Backend configuration issue. Make sure OPENAI_API_KEY is set in Render dashboard.');
+            addChatMessage('assistant', '⚠️ ' + aiResponse + '\n\n💡 **Quick Fix:**\n1. Go to Render dashboard\n2. Check Environment tab - make sure OPENAI_API_KEY is set\n3. Click "Manual Deploy" → "Deploy latest commit"\n4. Wait for redeploy to finish\n\nOr test: https://ai-assistant-z3fp.onrender.com/api/debug');
             return;
         }
         
