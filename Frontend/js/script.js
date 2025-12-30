@@ -1,7 +1,6 @@
 // DOM Elements
 const body = document.body;
-const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
-const themeIcon = document.querySelector('.theme-switch-wrapper em i');
+const themeToggleBtn = document.getElementById('themeToggle');
 const nav = document.querySelector('nav');
 const burger = document.querySelector('.burger');
 const navLinks = document.querySelector('.nav-links');
@@ -17,23 +16,30 @@ const currentTheme = localStorage.getItem('theme');
 function setTheme(isDark) {
     if (isDark) {
         body.setAttribute('data-theme', 'dark');
-        if (toggleSwitch) {
-        toggleSwitch.checked = true;
-        }
-        if (themeIcon) {
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
+        if (themeToggleBtn) {
+            const icon = themeToggleBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
         }
     } else {
         body.removeAttribute('data-theme');
-        if (toggleSwitch) {
-        toggleSwitch.checked = false;
-        }
-        if (themeIcon) {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
+        if (themeToggleBtn) {
+            const icon = themeToggleBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
         }
     }
+}
+
+function toggleTheme() {
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    setTheme(!isDark);
 }
 
 function toggleNav() {
@@ -324,11 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentTheme === 'dark') {
         setTheme(true);
     } else {
-        // Ensure icon is set correctly for default light theme
-        if (themeIcon) {
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        }
+        setTheme(false);
     }
     
     // Animate skill bars if they exist on the page
@@ -627,17 +629,9 @@ function setupTestimonialsCarousel() {
     }
 }
 
-// Theme switch event
-if (toggleSwitch) {
-    toggleSwitch.addEventListener('change', function() {
-        if (this.checked) {
-            localStorage.setItem('theme', 'dark');
-            setTheme(true);
-        } else {
-            localStorage.setItem('theme', 'light');
-            setTheme(false);
-        }
-    });
+// Theme toggle event
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
 }
 
 // Mobile navigation event
