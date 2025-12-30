@@ -1570,11 +1570,13 @@ img {
     z-index: 99;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .sidebar-backdrop.active {
     display: block;
     opacity: 1;
+    pointer-events: all;
 }
 
 .sidebar-mobile-toggle {
@@ -1625,6 +1627,11 @@ img {
     color: rgba(255, 255, 255, 0.7);
     transition: all 0.2s ease;
     font-size: 20px;
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
 }
 
 .sidebar-icon:hover {
@@ -1679,6 +1686,12 @@ img {
     font-weight: 500;
     transition: all 0.2s ease;
     font-size: 14px;
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .nav-item:hover {
@@ -1810,6 +1823,9 @@ img {
     padding: 30px;
     box-shadow: var(--shadow-sm);
     margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
 }
 
 .projects-grid-dashboard {
@@ -1884,6 +1900,9 @@ img {
     display: flex;
     gap: 15px;
     align-items: center;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
 }
 
 .btn-primary {
@@ -1894,6 +1913,12 @@ img {
         font-weight: 600;
     font-size: 14px;
         transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    text-decoration: none;
 }
 
 .btn-primary:hover {

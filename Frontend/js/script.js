@@ -211,9 +211,11 @@ function toggleMobileMenu() {
         if (isActive) {
             mobileNav.classList.remove('active');
             body.style.overflow = '';
+            body.classList.remove('menu-open');
         } else {
             mobileNav.classList.add('active');
             body.style.overflow = 'hidden';
+            body.classList.add('menu-open');
         }
     }
 }
@@ -260,6 +262,8 @@ function closeMobileMenu() {
     if (mobileNav && mobileNav.classList.contains('active')) {
         mobileNav.classList.remove('active');
         body.style.overflow = '';
+        // Also remove any backdrop or overlay
+        document.body.classList.remove('menu-open');
     }
 }
 
@@ -364,20 +368,30 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileNavLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
-                // If it's an anchor link, close menu after scroll
-                if (href && href.startsWith('#')) {
+                if (!href) return;
+                
+                // If it's an anchor link on the same page, close menu and scroll
+                if (href.startsWith('#')) {
                     e.preventDefault();
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
+                        // Close menu first
                         toggleMobileMenu();
+                        // Then scroll after a short delay to allow menu to close
                         setTimeout(() => {
                             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }, 300);
+                    } else {
+                        // If target not found, just close menu
+                        toggleMobileMenu();
                     }
                 } else {
-                    // For regular links, close menu immediately
+                    // For regular page links (like projects.html, contact.html)
+                    // Close menu immediately - navigation will happen via href
                     toggleMobileMenu();
+                    // Don't prevent default - let the browser navigate
+                    // The menu will be closed before navigation happens
                 }
             });
         });
@@ -404,6 +418,112 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Setup sidebar backdrop
     setupSidebarBackdrop();
+    
+    // Setup sidebar icon links - ensure they work properly
+    const sidebarIcons = document.querySelectorAll('.sidebar-icon');
+    if (sidebarIcons.length > 0) {
+        sidebarIcons.forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (!href) return;
+                
+                // Close sidebar on mobile before navigation
+                const isMobile = window.innerWidth <= 1024;
+                if (isMobile) {
+                    toggleSidebar();
+                }
+                
+                // If it's an anchor link, handle scrolling
+                if (href.includes('#')) {
+                    const parts = href.split('#');
+                    const pagePath = parts[0];
+                    const targetId = parts[1];
+                    
+                    // Check if we need to navigate to a different page
+                    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                    const targetPage = pagePath || currentPage;
+                    
+                    if (targetPage !== currentPage && pagePath) {
+                        // Different page - let browser navigate, then scroll after load
+                        // Don't prevent default - let navigation happen
+                        // Store target ID to scroll after page load
+                        if (targetId) {
+                            sessionStorage.setItem('scrollToId', targetId);
+                        }
+                    } else if (targetId) {
+                        // Same page - prevent default and scroll
+                        e.preventDefault();
+                        setTimeout(() => {
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }, isMobile ? 300 : 100);
+                    }
+                } else {
+                    // Regular page link - let browser navigate naturally
+                    // Sidebar already closed on mobile
+                }
+            });
+        });
+    }
+    
+    // Handle scroll to target after page load (for cross-page anchor links)
+    const scrollToId = sessionStorage.getItem('scrollToId');
+    if (scrollToId) {
+        sessionStorage.removeItem('scrollToId');
+        setTimeout(() => {
+            const targetElement = document.getElementById(scrollToId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 300);
+    }
+    
+    // Ensure "View Project" buttons are clickable
+    const viewProjectButtons = document.querySelectorAll('.btn-primary[href]');
+    viewProjectButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href && href !== '#' && href !== 'contact.html') {
+                // Allow navigation to external links
+                // Don't prevent default
+            }
+        });
+    });
+    
+    // Ensure header nav links work
+    const headerNavLinks = document.querySelectorAll('.header-nav .nav-item');
+    headerNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (!href) return;
+            
+            if (href.includes('#')) {
+                const parts = href.split('#');
+                const pagePath = parts[0];
+                const targetId = parts[1];
+                const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+                
+                // If it's a link to a different page with anchor, let browser navigate
+                if (pagePath && pagePath !== currentPage) {
+                    // Store target ID for scroll after navigation
+                    if (targetId) {
+                        sessionStorage.setItem('scrollToId', targetId);
+                    }
+                    // Let browser navigate naturally
+                } else if (targetId) {
+                    // Same page anchor link - prevent default and scroll
+                    e.preventDefault();
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }
+            // For regular page links without anchors, let browser navigate naturally
+        });
+    });
     
     // Testimonials Carousel
     setupTestimonialsCarousel();
