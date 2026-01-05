@@ -231,17 +231,37 @@ function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
     const body = document.body;
+    const sidebarToggle = document.getElementById('sidebarToggle');
     
     if (sidebar) {
+        const isOpening = !sidebar.classList.contains('mobile-open');
         sidebar.classList.toggle('mobile-open');
+        
         if (backdrop) {
             backdrop.classList.toggle('active');
         }
+        
         if (window.innerWidth <= 1024) {
-            if (sidebar.classList.contains('mobile-open')) {
+            if (isOpening) {
                 body.classList.add('sidebar-open');
-    } else {
+                body.style.overflow = 'hidden';
+            } else {
                 body.classList.remove('sidebar-open');
+                body.style.overflow = '';
+            }
+        }
+        
+        // Update toggle button icon/animation
+        if (sidebarToggle) {
+            const icon = sidebarToggle.querySelector('i');
+            if (icon) {
+                if (isOpening) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
             }
         }
     }
@@ -411,7 +431,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sidebar toggle for dashboard pages (projects.html, contact.html)
     const sidebarToggle = document.getElementById('sidebarToggle');
     if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function(e) {
+        // Remove any existing listeners by cloning
+        const newToggle = sidebarToggle.cloneNode(true);
+        sidebarToggle.parentNode.replaceChild(newToggle, sidebarToggle);
+        
+        // Add fresh event listener
+        newToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            toggleSidebar();
+        });
+        
+        // Also add touch event for better mobile support
+        newToggle.addEventListener('touchend', function(e) {
             e.preventDefault();
             e.stopPropagation();
             toggleSidebar();
@@ -431,7 +464,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Close sidebar on mobile before navigation
                 const isMobile = window.innerWidth <= 1024;
-                if (isMobile) {
+                const sidebar = document.getElementById('sidebar');
+                
+                if (isMobile && sidebar && sidebar.classList.contains('mobile-open')) {
+                    // Close sidebar immediately
                     toggleSidebar();
                 }
                 
@@ -460,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (targetElement) {
                                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             }
-                        }, isMobile ? 300 : 100);
+                        }, isMobile ? 400 : 100);
                     }
                 } else {
                     // Regular page link - let browser navigate naturally
