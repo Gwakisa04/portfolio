@@ -245,7 +245,7 @@ function toggleSidebar() {
             if (isOpening) {
                 body.classList.add('sidebar-open');
                 body.style.overflow = 'hidden';
-            } else {
+    } else {
                 body.classList.remove('sidebar-open');
                 body.style.overflow = '';
             }
@@ -310,13 +310,30 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 function setupScrollAnimations() {
+    // Enhanced observer with better options
+    const enhancedObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add delay based on index for staggered effect
+                setTimeout(() => {
+                    entry.target.classList.add('animate');
+                }, index * 50);
+                // Unobserve after animation for performance
+                enhancedObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    });
+    
     const animateElements = document.querySelectorAll(
-        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard, .about-image-frame, .hero-image-wrapper, .skills-image-wrapper, .contact-image-wrapper'
+        '.service-card, .project-preview-card, .testimonial-card-main, .about-feature, .skill-icon-item, .stat-item, .contact-info-item, .dashboard-card, .service-card-dashboard, .project-card-dashboard, .widget-card, .process-step, .timeline-item, .testimonial-card, .faq-item, .contact-item-dashboard, .contact-form-dashboard, .about-image-frame, .hero-image-wrapper, .skills-image-wrapper, .contact-image-wrapper, .welcome-banner, .cta-card, .dashboard-header, .projects-grid-dashboard, .dashboard-grid, .contact-info-dashboard, .header-nav, .search-box, .notification-btn, .profile-pic'
     );
     
-    animateElements.forEach(element => {
+    animateElements.forEach((element, index) => {
         element.classList.add('animate-on-load');
-        observer.observe(element);
+        enhancedObserver.observe(element);
         
         // Check if element is already in viewport on load
         const rect = element.getBoundingClientRect();
@@ -325,8 +342,15 @@ function setupScrollAnimations() {
             // Small delay to ensure smooth animation
             setTimeout(() => {
             element.classList.add('animate');
-            }, 100);
+            }, 100 + (index * 50));
         }
+    });
+    
+    // Also observe project image wrappers
+    const projectImageWrappers = document.querySelectorAll('.project-image-wrapper');
+    projectImageWrappers.forEach(wrapper => {
+        wrapper.classList.add('animate-on-load');
+        enhancedObserver.observe(wrapper);
     });
 }
 
@@ -565,7 +589,129 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Testimonials Carousel
     setupTestimonialsCarousel();
+    
+    // Load project cover images
+    loadProjectCoverImages();
 });
+
+// Function to load project cover images automatically
+async function loadProjectCoverImages() {
+    const projectCards = document.querySelectorAll('.project-card-dashboard');
+    
+    // Manual image mapping - you can add your project images here
+    // You can use screenshot services, upload images, or use og:image from the sites
+    const projectImageMap = {
+        'https://securehrorg.onrender.com/': null, // Add image URL here or leave null to auto-fetch
+        'https://tradepalorg.netlify.app': null, // Add image URL here or leave null to auto-fetch
+        'https://moviesgo-lfu1.onrender.com/': null, // Add image URL here or leave null to auto-fetch
+    };
+    
+    // Process each card
+    for (const card of projectCards) {
+        const viewProjectLink = card.querySelector('.btn-primary[href]');
+        if (!viewProjectLink) continue;
+        
+        const projectUrl = viewProjectLink.getAttribute('href');
+        if (!projectUrl || projectUrl === '#' || projectUrl === 'contact.html') continue;
+        
+        const imageWrapper = card.querySelector('.project-image-wrapper');
+        if (!imageWrapper) continue;
+        
+        // Check if image already exists
+        if (imageWrapper.querySelector('img')) continue;
+        
+        // Check manual mapping first
+        let imageUrl = projectImageMap[projectUrl];
+        
+        // If no manual mapping, try to fetch og:image
+        if (!imageUrl) {
+            try {
+                imageUrl = await fetchOgImage(projectUrl);
+            } catch (error) {
+                console.log('Could not fetch og:image for:', projectUrl);
+            }
+        }
+        
+        // If we have an image URL, load it
+        if (imageUrl) {
+            loadProjectImage(imageWrapper, imageUrl, card);
+            // Add small delay between requests to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+    }
+}
+
+// Function to load and display project image
+function loadProjectImage(imageWrapper, imageUrl, card) {
+    const placeholder = imageWrapper.querySelector('.project-image-placeholder');
+    if (!placeholder) return;
+    
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.alt = card.querySelector('h3')?.textContent || 'Project Preview';
+    img.classList.add('loading');
+    
+    img.onerror = () => {
+        // If image fails to load, keep placeholder
+        img.remove();
+        console.log('Failed to load image:', imageUrl);
+    };
+    
+    img.onload = () => {
+        img.classList.remove('loading');
+        img.classList.add('loaded');
+        // Fade out placeholder
+        setTimeout(() => {
+            placeholder.classList.add('fade-out');
+        }, 300);
+    };
+    
+    // Insert image before placeholder
+    imageWrapper.insertBefore(img, placeholder);
+}
+
+// Function to fetch og:image from a URL using CORS proxy
+async function fetchOgImage(url) {
+    try {
+        // Use a CORS proxy to fetch the page HTML
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+        const response = await fetch(proxyUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch');
+        
+        const data = await response.json();
+        
+        if (data.contents) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(data.contents, 'text/html');
+            
+            // Try to find og:image
+            const ogImage = doc.querySelector('meta[property="og:image"]');
+            if (ogImage) {
+                let imageUrl = ogImage.getAttribute('content');
+                // Handle relative URLs
+                if (imageUrl && !imageUrl.startsWith('http')) {
+                    try {
+                        const urlObj = new URL(url);
+                        imageUrl = new URL(imageUrl, urlObj.origin).href;
+                    } catch (e) {
+                        console.log('Error parsing image URL');
+                    }
+                }
+                return imageUrl;
+            }
+        }
+    } catch (error) {
+        console.log('Error fetching og:image:', error);
+    }
+    
+    return null;
+}
 
 // Ensure sidebar toggle works on page load for dashboard pages
 window.addEventListener('load', () => {
