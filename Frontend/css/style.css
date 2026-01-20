@@ -2137,14 +2137,26 @@ img {
     left: 0;
 }
 
-.project-image-wrapper img.loading {
-    opacity: 0;
-    transform: scale(1.1);
+.project-image-wrapper img.loading,
+.project-image-wrapper img.image-loading {
+    opacity: 0.5;
+    transform: scale(1.02);
+    filter: blur(2px);
 }
 
-.project-image-wrapper img.loaded {
+.project-image-wrapper img.loaded,
+.project-image-wrapper img.image-loaded {
     opacity: 1;
     transform: scale(1);
+    filter: blur(0);
+}
+
+/* Optimize image rendering */
+.project-image-wrapper img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: optimize-quality;
+    will-change: opacity, transform;
 }
 
 .project-image-placeholder {

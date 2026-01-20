@@ -592,6 +592,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load project cover images
     loadProjectCoverImages();
+    
+    // Optimize project card images with WebP conversion
+    optimizeProjectImages();
+    
+    // Preload critical images
+    preloadCriticalImages();
+    
+    // Optimize project card images with WebP conversion
+    optimizeProjectImages();
 });
 
 // Function to load project cover images automatically
@@ -711,6 +720,211 @@ async function fetchOgImage(url) {
     }
     
     return null;
+}
+
+// ===== IMAGE OPTIMIZATION WITH WEBP CONVERSION =====
+
+// Check WebP support
+function supportsWebP() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+}
+
+// Convert image to WebP format
+async function convertToWebP(imageSrc, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            try {
+                const webpDataUrl = canvas.toDataURL('image/webp', quality);
+                resolve(webpDataUrl);
+            } catch (error) {
+                reject(error);
+            }
+        };
+        
+        img.onerror = reject;
+        img.src = imageSrc;
+    });
+}
+
+// Get cached WebP image from localStorage
+function getCachedWebP(key) {
+    try {
+        const cached = localStorage.getItem(`webp_${key}`);
+        if (cached) {
+            const data = JSON.parse(cached);
+            // Check if cache is still valid (7 days)
+            if (Date.now() - data.timestamp < 7 * 24 * 60 * 60 * 1000) {
+                return data.webpData;
+            } else {
+                localStorage.removeItem(`webp_${key}`);
+            }
+        }
+    } catch (error) {
+        console.log('Error reading cache:', error);
+    }
+    return null;
+}
+
+// Cache WebP image to localStorage
+function cacheWebP(key, webpData) {
+    try {
+        const data = {
+            webpData: webpData,
+            timestamp: Date.now()
+        };
+        // Use compressed storage (localStorage has ~5-10MB limit)
+        localStorage.setItem(`webp_${key}`, JSON.stringify(data));
+    } catch (error) {
+        // If storage is full, clear old entries
+        if (error.name === 'QuotaExceededError') {
+            clearOldWebPCache();
+            try {
+                const data = {
+                    webpData: webpData,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem(`webp_${key}`, JSON.stringify(data));
+            } catch (e) {
+                console.log('Could not cache image:', e);
+            }
+        }
+    }
+}
+
+// Clear old WebP cache entries
+function clearOldWebPCache() {
+    try {
+        const keys = Object.keys(localStorage);
+        keys.forEach(key => {
+            if (key.startsWith('webp_')) {
+                const data = JSON.parse(localStorage.getItem(key));
+                // Remove entries older than 7 days
+                if (Date.now() - data.timestamp > 7 * 24 * 60 * 60 * 1000) {
+                    localStorage.removeItem(key);
+                }
+            }
+        });
+    } catch (error) {
+        console.log('Error clearing cache:', error);
+    }
+}
+
+// Optimize project card images
+async function optimizeProjectImages() {
+    // Check if WebP is supported
+    if (!supportsWebP()) {
+        console.log('WebP not supported, using original images');
+        return;
+    }
+    
+    const projectImages = document.querySelectorAll('.project-image-placeholder img');
+    
+    // Create intersection observer for lazy loading
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                optimizeSingleImage(img);
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px' // Start loading 50px before image enters viewport
+    });
+    
+    // Observe all project images
+    projectImages.forEach((img, index) => {
+        // Mark as loading
+        img.classList.add('image-loading');
+        
+        // Set loading attribute for native lazy loading
+        if (!img.hasAttribute('loading')) {
+            img.setAttribute('loading', 'lazy');
+        }
+        
+        // If image is already in viewport or is one of first 2, optimize immediately
+        const rect = img.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight + 50 && rect.bottom > -50;
+        
+        if (isInViewport || index < 2) {
+            // Preload first 2 images immediately
+            optimizeSingleImage(img);
+        } else {
+            imageObserver.observe(img);
+        }
+    });
+}
+
+// Optimize a single image
+async function optimizeSingleImage(img) {
+    const originalSrc = img.src || img.getAttribute('src');
+    if (!originalSrc || originalSrc.startsWith('data:image/webp')) {
+        return; // Already WebP or no source
+    }
+    
+    // Create cache key from image source
+    const cacheKey = originalSrc.split('/').pop().split('.')[0];
+    
+    // Check cache first
+    const cachedWebP = getCachedWebP(cacheKey);
+    if (cachedWebP) {
+        img.src = cachedWebP;
+        img.classList.remove('image-loading');
+        img.classList.add('image-loaded');
+        return;
+    }
+    
+    // Convert to WebP
+    try {
+        // Show loading state
+        img.style.opacity = '0.5';
+        img.style.transition = 'opacity 0.3s ease';
+        
+        const webpData = await convertToWebP(originalSrc, 0.85);
+        
+        // Cache the WebP version
+        cacheWebP(cacheKey, webpData);
+        
+        // Update image source
+        img.onload = () => {
+            img.style.opacity = '1';
+            img.classList.remove('image-loading');
+            img.classList.add('image-loaded');
+        };
+        
+        img.src = webpData;
+    } catch (error) {
+        console.log('Error converting to WebP:', error);
+        // Fallback to original image
+        img.classList.remove('image-loading');
+        img.style.opacity = '1';
+    }
+}
+
+// Preload critical images (first 2 project images)
+function preloadCriticalImages() {
+    const criticalImages = document.querySelectorAll('.project-card-dashboard:nth-child(-n+2) .project-image-placeholder img');
+    
+    criticalImages.forEach(img => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = img.src || img.getAttribute('src');
+        document.head.appendChild(link);
+    });
 }
 
 // Ensure sidebar toggle works on page load for dashboard pages
